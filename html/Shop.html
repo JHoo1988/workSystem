@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>厂商管理</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/shop.css">
+</head>
+<body>
+<div id="shop">
+    <el-container v-loading.fullscreen.lock="loading">
+        <el-main>
+            <div class="row1">
+                <span class="title">厂商编码：</span>
+                <template>
+                    <el-input placeholder="请输厂商编码" v-model="shop_no" size="mini">
+                    </el-input>
+                </template>
+                <span class="title">厂商名称：</span>
+                <template>
+                    <el-input placeholder="请输厂商名称" v-model="shop_name" size="mini">
+                    </el-input>
+                </template>
+                <span class="title">联系人：</span>
+                <template>
+                    <el-input placeholder="请输联系人" v-model="contacts" size="mini">
+                    </el-input>
+                </template>
+                <span class="title">厂商状态：</span>
+                <template>
+                    <el-select v-model="shopStatus" placeholder="请选择" size="mini">
+                        <el-option
+                                v-for="item in shopStatusOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+                <span class="title">审核状态：</span>
+                <template>
+                    <el-select v-model="checkStatus" placeholder="请选择" size="mini">
+                        <el-option
+                                v-for="item in checkStatusOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+            </div>
+            <div class="row2">
+
+                <el-button type="primary" size="mini" icon="el-icon-search" @click="search('aa')">搜索</el-button>
+                <el-button type="primary" plain size="mini" icon="el-icon-plus">新建厂商</el-button>
+                <!--<el-button type="primary" plain size="mini" v-if="putIn" @click="putInConsole()">放入操作台<i-->
+                <!--class="el-icon-caret-right el-icon&#45;&#45;right"></i></el-button>-->
+                <!--<el-badge :value="0" class="item">-->
+                <!--<el-button type="primary" plain size="mini" icon="el-icon-edit-outline">操作台</el-button>-->
+                <!--</el-badge>-->
+                <el-pagination
+                        small
+                        layout="prev, pager, next"
+                        :total="paginationTotal"
+                        :page-size="paginationPageSize"
+                        @current-change="handleCurrentChange">
+                </el-pagination>
+            </div>
+            <div class="row3">
+                <template>
+                    <el-table
+                            ref="multipleTable"
+                            :data="tableData"
+                            border
+                            stripe
+                            style="width: 100%"
+                            @selection-change="handleSelectionChange">
+                        <el-table-column
+                                type="selection"
+                                width="35">
+                        </el-table-column>
+                        <el-table-column
+                                fixed="left"
+                                label="操作"
+                                width="200">
+                            <template slot-scope="scope">
+                                <el-button @click="shopEditeClick(scope.row)" type="text" size="small" v-if="scope.row"
+                                           v-text="scope.row.col16"></el-button>
+                                <el-button @click="shopExamineClick(scope.row)" type="text" size="small"
+                                           v-if="scope.row" v-text="scope.row.col17"></el-button>
+                                <el-button @click="" type="text" size="small" v-if="scope.row"
+                                           v-text="scope.row.col18"></el-button>
+                                <el-button @click="" type="text" size="small" v-if="scope.row"
+                                           v-text="scope.row.col19"></el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="col1"
+                                label="厂商编码"
+                                show-overflow-tooltip
+                                width="110">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col2"
+                                label="厂商ID"
+                                show-overflow-tooltip
+                                width="100">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col3"
+                                label="厂商名称"
+                                width="250">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col4"
+                                label="厂商类别"
+                                show-overflow-tooltip
+                                width="80">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col5"
+                                label="厂商性质"
+                                show-overflow-tooltip
+                                width="80">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col6"
+                                label="联系人"
+                                show-overflow-tooltip
+                                width="80">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col7"
+                                label="联系电话"
+                                show-overflow-tooltip
+                                width="120">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col8"
+                                label="地址"
+                                show-overflow-tooltip
+                                width="250">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col9"
+                                label="备注"
+                                show-overflow-tooltip
+                                width="250">
+                        </el-table-column>
+                        <el-table-column
+                                label="合同"
+                                width="50">
+                            <template slot-scope="scope">
+                                <el-button @click="" type="text" size="small">下载</el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="col10"
+                                label="合同开始时间"
+                                show-overflow-tooltip
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col11"
+                                label="合同结束时间"
+                                show-overflow-tooltip
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col12"
+                                label="合同状态"
+                                show-overflow-tooltip
+                                width="80">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col13"
+                                label="品牌"
+                                show-overflow-tooltip
+                                width="150">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col14"
+                                label="厂商状态"
+                                show-overflow-tooltip
+                                width="80">
+                        </el-table-column>
+                        <el-table-column
+                                prop="col15"
+                                label="审核状态"
+                                show-overflow-tooltip
+                                width="80">
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+        </el-main>
+    </el-container>
+    <el-dialog title="审核" :visible.sync="dialogFormVisible">
+        <el-form :model="form" :rules="examineShopDialogRules" ref="form">
+            <el-form-item label="厂商名称" :label-width="formLabelWidth">
+                <span v-if="examineShopObject" v-text="examineShopObject.col3"></span>
+            </el-form-item>
+            <el-form-item label="审核操作" :label-width="formLabelWidth">
+                <template>
+                    <el-radio-group v-model="examineRadio">
+                        <el-radio :label="0">通过</el-radio>
+                        <el-radio :label="1">驳回</el-radio>
+                    </el-radio-group>
+                </template>
+            </el-form-item>
+            <el-form-item label="驳回原因" :label-width="formLabelWidth" v-if="examineRadio==1" prop="desc">
+                <el-input v-model="form.desc" auto-complete="off" placeholder="请输入驳回原因"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="examine('form',examineShopObject.col2)">确 定</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog title="编辑" :visible.sync="editeShopDialogVisible">
+        <el-form :model="editeShopForm" :rules="editeShopDialogRules" ref="editeShopForm">
+            <el-form-item label="厂商编码" :label-width="formLabelWidth" prop="col1">
+                <el-input v-model="editeShopForm.col1" auto-complete="off" placeholder="请输入厂商编码"></el-input>
+            </el-form-item>
+            <el-form-item label="厂商名称" :label-width="formLabelWidth" prop="col3">
+                <el-input v-model="editeShopForm.col3" auto-complete="off" placeholder="请输入厂商名称"></el-input>
+            </el-form-item>
+            <el-form-item label="厂商类别" :label-width="formLabelWidth" prop="col4">
+                <el-select v-model="editeShopForm.col4" placeholder="请选择厂商类别">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="厂商性质" :label-width="formLabelWidth" prop="col5">
+                <el-select v-model="editeShopForm.col5" placeholder="请选择厂商性质">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="editeShopDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="editeShop('editeShopForm')">更 新</el-button>
+        </div>
+    </el-dialog>
+</div>
+</body>
+<script src="../js/vue.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/axios.min.js"></script>
+<script>
+    new Vue({
+        el: '#shop',
+        data: function () {
+            return {
+                paginationTotal: 500,//总页数
+                paginationPageSize: 20,//每一页显示的数量
+                loading: false,// 加载框
+                putIn: false,//“放入操作台”的按钮是否显示
+                shop_no: '',// 厂商编码输入框的内容
+                shop_name: '',// 厂商名称输入框的内容
+                contacts: '',// 联系人输入框的内容
+                shopStatusOptions: [{ //厂商状态选项
+                    value: '0',
+                    label: '停用'
+                }, {
+                    value: '1',
+                    label: '启用'
+                }],
+                shopStatus: '',//用户选择的厂商状态
+                checkStatusOptions: [{//审核状态选项
+                    value: '0',
+                    label: '未审核'
+                }, {
+                    value: '1',
+                    label: '审核通过'
+                }, {
+                    value: '2',
+                    label: '驳回'
+                }],
+                checkStatus: '',//用户选择的审核状态
+                multipleSelection: [],//多选所选中的项
+                tableData: [{
+                    col1: 'SFDJJSONG',
+                    col2: '10000032',
+                    col3: '深圳十分到家服务科技有限公司',
+                    col4: '经销商类',
+                    col5: '非TCL系',
+                    col6: '测试测',
+                    col7: '027-12345678',
+                    col8: '广东省深圳市南山区西丽街道中山园路1001号Tcl国际E城F5栋3楼',
+                    col9: '备注：广东省深圳市南山区西丽街道中山园路1001号Tcl国际E城F5栋3楼',
+                    col10: '2018-04-16 10:35:55',
+                    col11: '2018-04-17 10:35:55',
+                    col12: '已生效',
+                    col13: '十分到家品牌',
+                    col14: '启用',
+                    col15: '已审核',
+                    col16: '编辑',
+                    col17: '审核',
+                    col18: '表单配置',
+                    col19: '下单',
+                }],
+                examineShopObject: null,// 选择的要审核的厂商对象
+                editeShopObject: null,// 选择的要编辑的厂商对象
+                dialogFormVisible: false,// “操作”-“审核”dialog是否显示
+                form: {// 审核厂商 表单对象
+                    desc: ''// 驳回原因
+                },
+                examineShopDialogRules: {
+                    desc:[{
+                        required: true, message: '请输入驳回原因', trigger: 'blur'
+                    }]
+                },
+                formLabelWidth: '100px',
+                examineRadio: 0, //0:表示选择通过，1：表示选择驳回
+                editeShopDialogVisible: false, // “操作”-“编辑”dialog是否显示
+                editeShopForm: {// 编辑厂商 表单对象
+                    col1: '',// 厂商编码
+                    col3: '',// 厂商名称
+                    col4: '',// 厂商类别
+                    col5: '',// 厂商性质
+                },
+                editeShopDialogRules: {// 编辑厂商 表单校验规则
+                    col1: [
+                        {required: true, message: '请输入厂商编码', trigger: 'blur'}
+                    ],
+                    col3: [
+                        {required: true, message: '请输入厂商名称', trigger: 'blur'}
+                    ],
+                    col4: [
+                        {required: true, message: '请选择厂商类别', trigger: 'change'}
+                    ],
+                    col5: [
+                        {required: true, message: '请选择厂商性质', trigger: 'change'}
+                    ],
+                }
+            }
+        },
+        methods: {
+            // 搜索按钮点击执行
+            search: function (bb) {
+                var $this = this;
+                $this.getAxiosInstance().post('/verify/code', {
+                    shop_no: $this.shop_no,// 厂商编码输入框的内容
+                    shop_name: $this.shop_name,// 厂商名称输入框的内容
+                    contacts: $this.contacts,// 联系人输入框的内容
+                    shopStatus: $this.shopStatus,// 用户选择的厂商状态
+                    checkStatus: $this.checkStatus,// 联系人输入框的内容
+                }).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == '0000') {
+                            // 搜索有结果-把搜索到的结果赋值给tableData3;
+                            // $this.tableData=response.data.code;
+
+                            // 如果没有搜索到结果，执行下面的一段提示
+                            // $this.$alert('根据你设置的查询条件，没有搜索到相关厂商。', '提示', {
+                            //     confirmButtonText: '确定',
+                            //     type: 'warning',
+                            //     center: true,
+                            //     callback: action => {
+                            //         //点击确定后的操作
+                            //     }
+                            // });
+                        } else {
+                            // 其他返回结果
+                            $this.$message.warning(response.data.msg);
+                        }
+                    } else {
+                        $this.$message.error('搜索失败');
+                    }
+                }).catch(function (error) {
+                    if (error.response && error.response.status != 200) {
+                        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                        $this.$message.error('搜索失败');
+                    } else {
+                        $this.$message.error('网络异常');
+                    }
+                });
+            },
+            // 分页点击执行
+            handleCurrentChange(val) {
+                // 页数改变，需要改变查询
+                // console.log(`当前页: ${val}`);
+                var $this = this;
+                $this.tableData = [];//先清空表格数据
+                $this.getAxiosInstance().post('/verify/code', {
+                    pageSize: val// 改变页码
+                }).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == '0000') {
+                            // 搜索有结果-把搜索到的结果赋值给tableData3;
+                            // $this.tableData=response.data.code;
+
+                            // 如果没有搜索到结果，执行下面的一段提示
+                            // $this.$alert('根据你设置的查询条件，没有搜索到相关厂商。', '提示', {
+                            //     confirmButtonText: '确定',
+                            //     type: 'warning',
+                            //     center: true,
+                            //     callback: action => {
+                            //         //点击确定后的操作
+                            //     }
+                            // });
+                        } else {
+                            // 其他返回结果
+                            $this.$message.warning(response.data.msg);
+                        }
+                    } else {
+                        $this.$message.error('查询失败');
+                    }
+                }).catch(function (error) {
+                    if (error.response && error.response.status != 200) {
+                        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                        $this.$message.error('查询失败');
+                    } else {
+                        $this.$message.error('网络异常');
+                    }
+                });
+            },
+            // 多选事件
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                if (this.multipleSelection.length > 0) {
+                    this.putIn = true;
+                } else {
+                    this.putIn = false;
+                }
+            },
+            // 放入操作台 事件
+            putInConsole(rows) {
+                // 1.执行放入操作台的操作
+
+                // 2.清空勾选
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+            },
+            // 操作-审核按钮 点击事件
+            shopExamineClick(row) {
+                this.examineShopObject = row;
+                this.examineRadio = 0;
+                this.form.desc = '';
+                this.dialogFormVisible = true;
+            },
+            // 操作-审核-确定 按钮点击事件
+            examine(formName,id) {
+                var $this = this;
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var url = null;
+                        var param = null;
+                        if ($this.examineRadio == 0) {
+                            // 审核通过
+                            url = '/verify/code';
+                            param = {
+                                id: id
+                            }
+                        } else {
+                            // 驳回
+                            url = '/verify/code';
+                            param = {
+                                id: id,
+                                desc: $this.form.desc
+                            }
+                        }
+                        $this.getAxiosInstance().post(url, param).then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.code == '0000') {
+                                    // 审核操作成功;
+                                    $this.dialogFormVisible = false
+                                } else {
+                                    // 其他返回结果
+                                    $this.$message.warning(response.data.msg);
+                                }
+                            } else {
+                                $this.$message.error('审核失败');
+                            }
+                        }).catch(function (error) {
+                            if (error.response && error.response.status != 200) {
+                                // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                                $this.$message.error('审核失败');
+                            } else {
+                                $this.$message.error('网络异常');
+                            }
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            // 操作-编辑按钮 点击事件
+            shopEditeClick(row) {
+                this.editeShopObject = row;
+                this.editeShopDialogVisible = true;
+                this.$refs['editeShopForm'].resetFields();
+            },
+            // 操作-编辑-更新 按钮点击事件
+            editeShop(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            getAxiosInstance: function () {
+                var _self = this;
+                var instance = axios.create({
+                    baseURL: "http://120.76.157.13:666/mapi",
+                    method: 'post'
+                });
+                instance.interceptors.request.use(function (config) {
+                    // 在发送请求之前做些什么
+                    _self.loading = true;
+                    return config;
+                }, function (error) {
+                    // 对请求错误做些什么
+                    _self.loading = false;
+                    _self.$message.error('加载失败');
+                    return Promise.reject(error);
+                });
+                instance.interceptors.response.use(function (response) {
+                    //对响应数据做点什么
+                    // 关闭加载框
+                    _self.loading = false;
+                    return response;
+                }, function (error) {
+                    // 对响应错误做点什么 error.response.status
+                    // 关闭加载框
+                    _self.loading = false;
+                    return Promise.reject(error);
+                });
+                return instance;
+            }
+        }
+    })
+</script>
+</html>
