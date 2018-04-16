@@ -240,6 +240,21 @@
                     <el-option label="区域二" value="beijing"></el-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="联系人" :label-width="formLabelWidth" prop="col6">
+                <el-input v-model="editeShopForm.col6" auto-complete="off" placeholder="请输入联系人"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话" :label-width="formLabelWidth" prop="col7">
+                <el-input v-model="editeShopForm.col7" auto-complete="off" placeholder="请输入联系电话"></el-input>
+            </el-form-item>
+            <el-form-item label="住址" :label-width="formLabelWidth" prop="col8">
+                <el-input v-model="editeShopForm.col8" auto-complete="off" placeholder="请输入住址"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" :label-width="formLabelWidth" prop="col9">
+                <el-input v-model="editeShopForm.col9" auto-complete="off" placeholder="请输入备注"></el-input>
+            </el-form-item>
+            <el-form-item label="合同上传" :label-width="formLabelWidth" prop="hetong">
+                <el-switch v-model="editeShopForm.hetong"></el-switch>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="editeShopDialogVisible = false">取 消</el-button>
@@ -323,6 +338,10 @@
                     col3: '',// 厂商名称
                     col4: '',// 厂商类别
                     col5: '',// 厂商性质
+                    col6: '',// 联系人
+                    col7: '',// 联系电话
+                    col8: '',// 住址
+                    col9: '',// 备注
                 },
                 editeShopDialogRules: {// 编辑厂商 表单校验规则
                     col1: [
@@ -336,6 +355,12 @@
                     ],
                     col5: [
                         {required: true, message: '请选择厂商性质', trigger: 'change'}
+                    ],
+                    col6: [
+                        {required: true, message: '请输入联系人', trigger: 'blur'}
+                    ],
+                    col7: [
+                        {required: true, message: '请输入联系电话', trigger: 'blur'}
                     ],
                 }
             }
