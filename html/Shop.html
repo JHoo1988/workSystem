@@ -220,7 +220,7 @@
             <el-button type="primary" @click="examine('form',examineShopObject.col2)">确 定</el-button>
         </div>
     </el-dialog>
-    <el-dialog title="编辑" :visible.sync="editeShopDialogVisible">
+    <el-dialog title="编辑" :visible.sync="editeShopDialogVisible" :close-on-click-modal="false">
         <el-form :model="editeShopForm" :rules="editeShopDialogRules" ref="editeShopForm">
             <el-form-item label="厂商编码" :label-width="formLabelWidth" prop="col1">
                 <el-input v-model="editeShopForm.col1" auto-complete="off" placeholder="请输入厂商编码"></el-input>
@@ -644,3 +644,9 @@
     })
 </script>
 </html>
+<script>
+    import CreatShop from "./components/creatShop";
+    export default {
+        components: {CreatShop}
+    }
+</script>
