@@ -60,13 +60,6 @@
                 <!--<el-badge :value="0" class="item">-->
                 <!--<el-button type="primary" plain size="mini" icon="el-icon-edit-outline">操作台</el-button>-->
                 <!--</el-badge>-->
-                <el-pagination
-                        small
-                        layout="prev, pager, next"
-                        :total="paginationTotal"
-                        :page-size="paginationPageSize"
-                        @current-change="handleCurrentChange">
-                </el-pagination>
             </div>
             <div class="row3">
                 <template>
@@ -90,9 +83,9 @@
                                            v-text="scope.row.col16"></el-button>
                                 <el-button @click="shopExamineClick(scope.row)" type="text" size="small"
                                            v-if="scope.row" v-text="scope.row.col17"></el-button>
-                                <el-button @click="" type="text" size="small" v-if="scope.row"
+                                <el-button @click="tableEdite(scope.row)" type="text" size="small" v-if="scope.row"
                                            v-text="scope.row.col18"></el-button>
-                                <el-button @click="" type="text" size="small" v-if="scope.row"
+                                <el-button @click="placeAnOrder(scope.row)" type="text" size="small" v-if="scope.row"
                                            v-text="scope.row.col19"></el-button>
                             </template>
                         </el-table-column>
@@ -195,6 +188,13 @@
                     </el-table>
                 </template>
             </div>
+            <el-pagination
+                    background
+                    @current-change="handleCurrentChange"
+                    :page-size="paginationPageSize"
+                    layout="total, prev, pager, next, jumper"
+                    :total="paginationTotal">
+            </el-pagination>
         </el-main>
     </el-container>
     <el-dialog title="审核" :visible.sync="dialogFormVisible">
@@ -415,7 +415,7 @@
                 }
             };
             return {
-                paginationTotal: 500,//总页数
+                paginationTotal: 500,//总条数
                 paginationPageSize: 20,//每一页显示的数量
                 loading: false,// 加载框
                 putIn: false,//“放入操作台”的按钮是否显示
@@ -619,6 +619,16 @@
                 this.examineRadio = 0;
                 this.form.desc = '';
                 this.dialogFormVisible = true;
+            },
+            // 操作-表单配置按钮 点击事件
+            tableEdite(row) {
+                this.examineShopObject = row;
+                this.$message('该功能正在开发中...');
+            },
+            // 操作-下单按钮 点击事件
+            placeAnOrder(row) {
+                this.examineShopObject = row;
+                this.$message('该功能正在开发中...');
             },
             // 操作-审核-确定 按钮点击事件
             examine(formName, id) {
