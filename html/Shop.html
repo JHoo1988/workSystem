@@ -275,11 +275,10 @@
                 <el-date-picker
                         v-model="editeShopForm.contractValidityValue"
                         type="datetimerange"
-                        :picker-options="pickerOptions"
                         range-separator="至"
-                        start-placeholder="开始日期"
                         end-placeholder="结束日期"
-                        align="right">
+                        start-placeholder="开始日期"
+                        align="">
                 </el-date-picker>
             </el-form-item>
         </el-form>
@@ -384,7 +383,7 @@
                     //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
                     // }]
                     fileList: [],
-                    contractValidityValue:''
+                    contractValidityValue:'',//合同有效期
                 },
                 editeShopDialogRules: {// 编辑厂商 表单校验规则
                     col1: [
@@ -412,34 +411,6 @@
                         {required: true, message: '请选择合同有效期', trigger: 'blur' }
                     ],
                 },
-                pickerOptions: {
-                    shortcuts: [{
-                        text: '最近半年',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    },{
-                        text: '最近一年',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    },{
-                        text: '最近两年',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 730);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
-                },
-                contractValidityValue: '',//合同有效期
             }
         },
         methods: {
@@ -607,7 +578,7 @@
             },
             // 操作-编辑-更新 按钮点击事件
             editeShop(formName) {
-                console.log("选择的日期是="+this.contractValidityValue);
+                console.log("选择的日期是="+this.editeShopForm.contractValidityValue);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
