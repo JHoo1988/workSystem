@@ -15,19 +15,21 @@
     <el-container v-loading.fullscreen.lock="loading">
         <el-main>
             <div class="row1">
-                <span class="title">业务类型：</span>
-                <template>
-                    <el-select v-model="businessCategorySelected" placeholder="请选择" size="mini">
-                        <el-option
-                                v-for="item in businessCategoryArray"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </template>
-                <span class="title">case级别：</span>
-                <template>
+                <div class="searchItem">
+                    <span class="title">业务类型：</span>
+                    <template>
+                        <el-select v-model="businessCategorySelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in businessCategoryArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">case级别：</span>
                     <el-select v-model="caseLevelSelected" placeholder="请选择" size="mini">
                         <el-option
                                 v-for="item in caseLevelArray"
@@ -36,39 +38,58 @@
                                 :value="item.value">
                         </el-option>
                     </el-select>
-                </template>
-                <span class="title">是否督办：</span>
-                <template>
-                    <el-select v-model="superviseSelected" placeholder="请选择" size="mini">
-                        <el-option
-                                v-for="item in superviseArray"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </template>
-                <span class="title">是否督办：</span>
-                <template>
-                    <el-select v-model="superviseSelected" placeholder="请选择" size="mini">
-                        <el-option
-                                v-for="item in superviseArray"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </template>
-                <span class="title">厂商名称：</span>
-                <template>
-                    <el-input placeholder="请输厂商名称" v-model="shop_name" size="mini">
-                    </el-input>
-                </template>
-                <span class="title">联系人：</span>
-                <template>
-                    <el-input placeholder="请输联系人" v-model="contacts" size="mini">
-                    </el-input>
-                </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">case状态：</span>
+                    <template>
+                        <el-select v-model="caseStatuSelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in caseStatuArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">是否督办：</span>
+                    <template>
+                        <el-select v-model="superviseSelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in superviseArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">是否重点：</span>
+                    <template>
+                        <el-select v-model="importantSelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in importantArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+
+
+                <!--<span class="title">厂商名称：</span>-->
+                <!--<template>-->
+                <!--<el-input placeholder="请输厂商名称" v-model="shop_name" size="mini">-->
+                <!--</el-input>-->
+                <!--</template>-->
+                <!--<span class="title">联系人：</span>-->
+                <!--<template>-->
+                <!--<el-input placeholder="请输联系人" v-model="contacts" size="mini">-->
+                <!--</el-input>-->
+                <!--</template>-->
 
             </div>
             <el-pagination
@@ -130,8 +151,54 @@
                     value: '408',
                     label: '5级CASE单'
                 }],
+                caseStatuSelected: '',//选择的case状态
+                caseStatuArray: [{ //case级别状态
+                    value: 'SS_1100',
+                    label: '受理中'
+                }, {
+                    value: 'SS_1400',
+                    label: '待处理'
+                }, {
+                    value: 'SS_1600',
+                    label: '待回拨'
+                }, {
+                    value: 'SS_4100',
+                    label: '待派工'
+                }, {
+                    value: 'SS_4400',
+                    label: '待抢单'
+                }, {
+                    value: 'SS_4700',
+                    label: '待回单'
+                }, {
+                    value: 'SS_6100',
+                    label: '待回访'
+                }, {
+                    value: 'SS_6400',
+                    label: '回访中'
+                }, {
+                    value: 'SS_9100',
+                    label: '结束'
+                }, {
+                    value: 'SS_CLOSEVISIT',
+                    label: '结束回访任务'
+                }, {
+                    value: 'SS_REMIND',
+                    label: '提醒'
+                }, {
+                    value: 'SS_1100,SS_1400,SS_1600,SS_4100,SS_4400,SS_4700,SS_REMIND',
+                    label: '未关闭'
+                }],
                 superviseSelected: '',//选择的是否督办
                 superviseArray: [{ //是否督办选项
+                    value: '0',
+                    label: '否'
+                }, {
+                    value: '1',
+                    label: '是'
+                }],
+                importantSelected: '',//选择的是否重点
+                importantArray: [{ //是否重点选项
                     value: '0',
                     label: '否'
                 }, {
