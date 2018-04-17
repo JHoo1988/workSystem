@@ -91,19 +91,53 @@
                         </el-select>
                     </template>
                 </div>
-
-
-                <!--<span class="title">厂商名称：</span>-->
-                <!--<template>-->
-                <!--<el-input placeholder="请输厂商名称" v-model="shop_name" size="mini">-->
-                <!--</el-input>-->
-                <!--</template>-->
-                <!--<span class="title">联系人：</span>-->
-                <!--<template>-->
-                <!--<el-input placeholder="请输联系人" v-model="contacts" size="mini">-->
-                <!--</el-input>-->
-                <!--</template>-->
-
+                <div class="searchItem">
+                    <span class="title">来源类型：</span>
+                    <template>
+                        <el-select v-model="sourceTypeSelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in sourceTypeArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">case单号：</span>
+                    <el-input placeholder="请输case单号" v-model="caseNoSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">原始单号：</span>
+                    <el-input placeholder="请输原始单号" v-model="originalNoSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">客户姓名：</span>
+                    <el-input placeholder="请输客户姓名" v-model="customerNameSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">客户电话：</span>
+                    <el-input placeholder="请输客户电话" v-model="customerPhoneNoSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">所属门店：</span>
+                    <el-input placeholder="请输客户姓名" v-model="shopSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">订单来源：</span>
+                    <el-input placeholder="请输客户电话" v-model="orderSourceSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
+                    <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="selfReceipt()">自接单</el-button>
+                </div>
             </div>
             <el-pagination
                     background
@@ -114,13 +148,31 @@
             </el-pagination>
         </el-main>
     </el-container>
+    <el-dialog title="自接单" :visible.sync="selfReceiptDialog">
+        <el-form :model="selfReceiptForm" :rules="selfReceiptRules" ref="selfReceiptForm">
+            <el-form-item label="业务类型" :label-width="formLabelWidth" prop="selfReceiptbusinessCategorySelected">
+                <el-select v-model="selfReceiptForm.selfReceiptbusinessCategorySelected" placeholder="请选择业务类型">
+                    <el-option v-for="businessCategory in selfReceiptForm.businessCategoryOptions" :label="businessCategory.name" :key="businessCategory.value" :value="businessCategory.value" ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="选择厂商" :label-width="formLabelWidth" prop="selfReceiptbusinessCategorySelected">
+                <el-select v-model="selfReceiptForm.selfReceiptbusinessCategorySelected" placeholder="请选择业务类型">
+                    <el-option v-for="businessCategory in selfReceiptForm.businessCategoryOptions" :label="businessCategory.name" :key="businessCategory.value" :value="businessCategory.value" ></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="selfReceiptDialog = false">取 消</el-button>
+            <el-button type="primary" @click="examine('selfReceiptForm',selfReceiptForm.selfReceiptbusinessCategorySelected)">确 定</el-button>
+        </div>
+    </el-dialog>
 </div>
 <script src="../js/vue.js"></script>
 <script src="../js/index.js"></script>
 <script src="../js/axios.min.js"></script>
 <script src="../js/caseMonitorVue.js"></script>
 <!--<script>-->
-    <!--vue._data.paginationTotal=50;-->
+<!--vue._data.paginationTotal=50;-->
 <!--</script>-->
 </body>
 </html>

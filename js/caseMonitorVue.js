@@ -6,8 +6,8 @@ var vue = new Vue({
             paginationPageSize: 20,//每一页显示的数量
             loading: false,// 加载框
             putIn: false,//“放入操作台”的按钮是否显示
-            businessCategorySelected: '',//选择的业务类型
-            businessCategoryArray: [{ //业务类型选项
+            businessCategorySelected: '',//搜索条件输入框-选择的业务类型
+            businessCategoryArray: [{ //搜索条件输入框-业务类型选项
                 value: '1294',
                 label: '空调'
             }, {
@@ -23,8 +23,8 @@ var vue = new Vue({
                 value: '2956',
                 label: '其他业务'
             }],
-            caseLevelSelected: '',//选择的case级别
-            caseLevelArray: [{ //case级别选项
+            caseLevelSelected: '',//搜索条件输入框-选择的case级别
+            caseLevelArray: [{ //搜索条件输入框-case级别选项
                 value: '403',
                 label: '普通单'
             }, {
@@ -43,8 +43,8 @@ var vue = new Vue({
                 value: '408',
                 label: '5级CASE单'
             }],
-            caseStatuSelected: '',//选择的case状态
-            caseStatuArray: [{ //case级别状态
+            caseStatuSelected: '',//搜索条件输入框-选择的case状态
+            caseStatuArray: [{ //搜索条件输入框-case级别状态
                 value: 'SS_1100',
                 label: '受理中'
             }, {
@@ -81,24 +81,24 @@ var vue = new Vue({
                 value: 'SS_1100,SS_1400,SS_1600,SS_4100,SS_4400,SS_4700,SS_REMIND',
                 label: '未关闭'
             }],
-            superviseSelected: '',//选择的是否督办
-            superviseArray: [{ //是否督办选项
+            superviseSelected: '',//搜索条件输入框-选择的是否督办
+            superviseArray: [{ //搜索条件输入框-是否督办选项
                 value: '0',
                 label: '否'
             }, {
                 value: '1',
                 label: '是'
             }],
-            importantSelected: '',//选择的是否重点
-            importantArray: [{ //是否重点选项
+            importantSelected: '',//搜索条件输入框-选择的是否重点
+            importantArray: [{ //搜索条件输入框-是否重点选项
                 value: '0',
                 label: '否'
             }, {
                 value: '1',
                 label: '是'
             }],
-            processeSourceSelected: '',//选择的处理来源
-            processeSourceArray: [{ //处理来源选项
+            processeSourceSelected: '',//搜索条件输入框-选择的处理来源
+            processeSourceArray: [{ //搜索条件输入框-处理来源选项
                 value: 'SS_1101',
                 label: '入库失败'
             }, {
@@ -111,6 +111,41 @@ var vue = new Vue({
                 value: 'SS_1401',
                 label: '重新处理'
             }],
+            sourceTypeSelected: '',//搜索条件输入框-选择的来源类型
+            sourceTypeArray: [{ //搜索条件输入框-来源类型选项
+                value: '0',
+                label: '受理'
+            }, {
+                value: '1',
+                label: '自接单'
+            }, {
+                value: '2',
+                label: '导入'
+            }, {
+                value: '3',
+                label: '接口'
+            }],
+            caseNoSearch: '',//搜索条件输入框-case单号
+            originalNoSearch: '',//搜索条件输入框-原始单号
+            customerNameSearch: '',//搜索条件输入框-客户姓名
+            customerPhoneNoSearch: '',//搜索条件输入框-客户电话
+            shopSearch: '',//搜索条件输入框-所属门店
+            orderSourceSearch: '',//搜索条件输入框-订单来源
+            selfReceiptDialog: false,// 是否显示“自接单”dialog
+            formLabelWidth: '100px',
+            selfReceiptForm: {
+                businessCategoryOptions: [
+                    {name: '空调', value: '0'},
+                    {name: '冰洗', value: '1'},
+                ],
+                selfReceiptbusinessCategorySelected:'',
+            },
+            selfReceiptRules: {
+                selfReceiptbusinessCategorySelected: [
+                    {required: true, message: '请选择业务类型', trigger: 'change'}
+                ],
+
+            }
         }
 
     },
@@ -125,6 +160,53 @@ var vue = new Vue({
                 pageSize: val// 改变页码
             };
             this.request('/verify/code', params, '查询失败', function (callback) {
+            });
+        },
+        // 搜索按钮点击执行
+        search: function () {
+            // 请求参数
+            var params = {
+                caseNoSearch: this.caseNoSearch,// case单号输入框的内容
+            };
+            this.request('/verify/code', params, '搜索失败', function (callback) {
+                // 搜索有结果-把搜索到的结果赋值给tableData3;
+                // $this.tableData=response.data.code;
+
+                // 如果没有搜索到结果，执行下面的一段提示
+                // $this.$alert('根据你设置的查询条件，没有搜索到相关厂商。', '提示', {
+                //     confirmButtonText: '确定',
+                //     type: 'warning',
+                //     center: true,
+                //     callback: action => {
+                //         //点击确定后的操作
+                //     }
+                // });
+            });
+        },
+        // 搜索栏上的“自接单”按钮的出发事件
+        selfReceipt: function () {
+            this.selfReceiptDialog = true;
+            // // 请求参数
+            // var params = {};
+            // this.request('/verify/code', params, '业务类型加载失败', function (callback) {
+            //     this.selfReceiptDialog = true;
+            // });
+        },
+        // 操作-审核-确定 按钮点击事件
+        examine(formName, value) {
+            console.log(value);
+            var $this = this;
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    var param = {
+                    }
+                    this.request('/verify/code',param,'自接单失败',function (callback) {
+                        // 审核操作成功;
+                        $this.selfReceiptDialog = false;
+                    });
+                } else {
+                    return false;
+                }
             });
         },
         getAxiosInstance: function () {
@@ -157,7 +239,7 @@ var vue = new Vue({
             return instance;
         },
         // 请求封装
-        request(url,params,errorToast,callback){
+        request(url, params, errorToast, callback) {
             var $this = this;
             $this.getAxiosInstance().post(url, params).then(function (response) {
                 if (response.status == 200) {
