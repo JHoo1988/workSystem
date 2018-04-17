@@ -78,6 +78,19 @@
                         </el-select>
                     </template>
                 </div>
+                <div class="searchItem">
+                    <span class="title">处理来源：</span>
+                    <template>
+                        <el-select v-model="processeSourceSelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in processeSourceArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
 
 
                 <!--<span class="title">厂商名称：</span>-->
@@ -204,6 +217,53 @@
                 }, {
                     value: '1',
                     label: '是'
+                }],
+                processeSourceSelected: '',//选择的处理来源
+                processeSourceArray: [{ //处理来源选项
+                    value: 'SS_1101',
+                    label: '入库失败'
+                }, {
+                    value: 'SS_1102',
+                    label: '工作流启动失败'
+                }, {
+                    value: 'SS_1103',
+                    label: '自动流转失败'
+                }, {
+                    value: 'SS_1401',
+                    label: '重新处理'
+                }, {
+                    value: 'SS_1407',
+                    label: '退case单'
+                }, {
+                    value: 'SS_1409',
+                    label: '初次受理'
+                }, {
+                    value: 'SS_1601',
+                    label: '受理'
+                }, {
+                    value: 'SS_1604',
+                    label: 'IVR'
+                }, {
+                    value: 'SS_4101',
+                    label: '自动流转'
+                }, {
+                    value: 'SS_4102',
+                    label: '自动流转2'
+                }, {
+                    value: 'SS_4104',
+                    label: '分发'
+                }, {
+                    value: 'SS_4107',
+                    label: '退工单'
+                }, {
+                    value: 'SS_4110',
+                    label: '取消工单'
+                }, {
+                    value: 'SS_4113',
+                    label: '回单需转派'
+                }, {
+                    value: 'SS_4114',
+                    label: '抢单池转入'
                 }],
             }
 
