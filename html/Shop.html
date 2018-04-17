@@ -252,8 +252,24 @@
             <el-form-item label="备注" :label-width="formLabelWidth" prop="col9">
                 <el-input v-model="editeShopForm.col9" auto-complete="off" placeholder="请输入备注"></el-input>
             </el-form-item>
-            <el-form-item label="合同上传" :label-width="formLabelWidth" prop="hetong">
-                <el-switch v-model="editeShopForm.hetong"></el-switch>
+            <el-form-item label="合同上传" :label-width="formLabelWidth" prop="fileList">
+                <el-upload
+                        class="upload-demo"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :before-upload="beforeUpload"
+                        :on-success="uploadSuccess"
+                        :on-error="uploadError"
+                        multiple
+                        :limit="1"
+                        :on-exceed="handleExceed"
+                        accept="image/*"
+                        list-type="picture"
+                        :file-list="editeShopForm.fileList">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -270,6 +286,16 @@
     new Vue({
         el: '#shop',
         data: function () {
+            //自定义校验规则
+            var validateHetong = (rule, value, callback) => {
+                if (value.length <= 0) {
+                    callback(new Error('请上传合同'));
+                } else if(!value[0].name.endsWith('.jpg')||!value[0].name.endsWith('.jpeg')||!value[0].name.endsWith('.png')){
+                    callback(new Error('请上传图片类型'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 paginationTotal: 500,//总页数
                 paginationPageSize: 20,//每一页显示的数量
@@ -326,7 +352,7 @@
                     desc: ''// 驳回原因
                 },
                 examineShopDialogRules: {
-                    desc:[{
+                    desc: [{
                         required: true, message: '请输入驳回原因', trigger: 'blur'
                     }]
                 },
@@ -342,6 +368,11 @@
                     col7: '',// 联系电话
                     col8: '',// 住址
                     col9: '',// 备注
+                    // fileList: [{// 合同
+                    //     name: 'food.jpeg',
+                    //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+                    // }]
+                    fileList: []
                 },
                 editeShopDialogRules: {// 编辑厂商 表单校验规则
                     col1: [
@@ -361,6 +392,9 @@
                     ],
                     col7: [
                         {required: true, message: '请输入联系电话', trigger: 'blur'}
+                    ],
+                    fileList: [
+                        {required: true, validator: validateHetong, trigger: 'blur' }
                     ],
                 }
             }
@@ -475,7 +509,7 @@
                 this.dialogFormVisible = true;
             },
             // 操作-审核-确定 按钮点击事件
-            examine(formName,id) {
+            examine(formName, id) {
                 var $this = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -524,7 +558,9 @@
             shopEditeClick(row) {
                 this.editeShopObject = row;
                 this.editeShopDialogVisible = true;
-                this.$refs['editeShopForm'].resetFields();
+                if(this.$refs['editeShopForm']){
+                    this.$refs['editeShopForm'].resetFields();
+                }
             },
             // 操作-编辑-更新 按钮点击事件
             editeShop(formName) {
@@ -536,6 +572,29 @@
                         return false;
                     }
                 });
+            },
+            uploadSuccess(response, file, fileList){
+                console.log(response);
+                console.log(fileList);
+            },
+            uploadError(err, file, fileList){
+                //合同上传失败
+                this.$message.warning(`合同上传失败，请重试`);
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeUpload(file) {
+                if(file.type!="image/jpeg" && file.type!="image/png"){
+                    this.$message.warning(`请上传jpg或png图片文件`);
+                    return false;
+                }
             },
             getAxiosInstance: function () {
                 var _self = this;
