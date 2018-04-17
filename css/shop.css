@@ -1,21 +1,4 @@
-html, body {
-    width: 100%;
-    height: 100%;
-}
 
-body {
-    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
-
-* {
-    margin: 0px;
-    padding: 0px;
-}
-
-@font-face {
-    font-family: SketchRockwell; /*这里是说明调用来的字体名字*/
-    src: url('fonts/element-icons.woff'); /*这里是字体文件路径*/
-}
 
 /*.el-main{*/
 /*display: -webkit-flex; !* Safari *!*/
@@ -51,10 +34,6 @@ body {
     width: 100px;
 }
 
-.el-main .title {
-    font-size: 14px;
-}
-
 .el-main .row2, .el-main .row3 {
     margin-top: 15px;
 }
@@ -70,9 +49,4 @@ body {
 
 .el-dialog .el-dialog__body .el-form .el-upload__tip {
     margin-left: 10px;
-}
-
-.el-main .el-pagination {
-    margin-top: 15px;
-    text-align: center;
 }

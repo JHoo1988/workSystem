@@ -1,0 +1,9 @@
+.el-main .row1 .el-input-group {
+    width: auto;
+    margin-right: 10px;
+}
+
+.el-main .row1 .el-input {
+    width: 120px;
+    margin-right: 10px;
+}

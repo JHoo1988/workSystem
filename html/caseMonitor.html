@@ -7,11 +7,79 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>case监控台</title>
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/caseMonitor.css">
 </head>
 <body>
 <div id="caseMonitor">
+    <el-container v-loading.fullscreen.lock="loading">
+        <el-main>
+            <div class="row1">
+                <span class="title">业务类型：</span>
+                <template>
+                    <el-select v-model="businessCategorySelected" placeholder="请选择" size="mini">
+                        <el-option
+                                v-for="item in businessCategoryArray"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+                <span class="title">case级别：</span>
+                <template>
+                    <el-select v-model="caseLevelSelected" placeholder="请选择" size="mini">
+                        <el-option
+                                v-for="item in caseLevelArray"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+                <span class="title">是否督办：</span>
+                <template>
+                    <el-select v-model="superviseSelected" placeholder="请选择" size="mini">
+                        <el-option
+                                v-for="item in superviseArray"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+                <span class="title">是否督办：</span>
+                <template>
+                    <el-select v-model="superviseSelected" placeholder="请选择" size="mini">
+                        <el-option
+                                v-for="item in superviseArray"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+                <span class="title">厂商名称：</span>
+                <template>
+                    <el-input placeholder="请输厂商名称" v-model="shop_name" size="mini">
+                    </el-input>
+                </template>
+                <span class="title">联系人：</span>
+                <template>
+                    <el-input placeholder="请输联系人" v-model="contacts" size="mini">
+                    </el-input>
+                </template>
 
+            </div>
+            <el-pagination
+                    background
+                    @current-change="handleCurrentChange"
+                    :page-size="paginationPageSize"
+                    layout="total, prev, pager, next, jumper"
+                    :total="paginationTotal">
+            </el-pagination>
+        </el-main>
+    </el-container>
 </div>
 <script src="../js/vue.js"></script>
 <script src="../js/index.js"></script>
@@ -21,11 +89,72 @@
         el: '#caseMonitor',
         data: function () {
             return {
-
+                paginationTotal: 500,//总条数
+                paginationPageSize: 20,//每一页显示的数量
+                loading: false,// 加载框
+                putIn: false,//“放入操作台”的按钮是否显示
+                businessCategorySelected: '',//选择的业务类型
+                businessCategoryArray: [{ //业务类型选项
+                    value: '1294',
+                    label: '空调'
+                }, {
+                    value: '1562',
+                    label: '冰洗'
+                }, {
+                    value: '2226',
+                    label: '彩电'
+                }, {
+                    value: '4209',
+                    label: 'C端业务'
+                }, {
+                    value: '2956',
+                    label: '其他业务'
+                }],
+                caseLevelSelected: '',//选择的case级别
+                caseLevelArray: [{ //case级别选项
+                    value: '403',
+                    label: '普通单'
+                }, {
+                    value: '404',
+                    label: '1级CASE单'
+                }, {
+                    value: '405',
+                    label: '2级CASE单'
+                }, {
+                    value: '406',
+                    label: '3级CASE单'
+                }, {
+                    value: '407',
+                    label: '4级CASE单'
+                }, {
+                    value: '408',
+                    label: '5级CASE单'
+                }],
+                superviseSelected: '',//选择的是否督办
+                superviseArray: [{ //是否督办选项
+                    value: '0',
+                    label: '否'
+                }, {
+                    value: '1',
+                    label: '是'
+                }],
             }
 
         },
-        methods: {}
+        methods: {
+            // 分页点击执行
+            handleCurrentChange(val) {
+                // 页数改变，需要改变查询
+                // console.log(`当前页: ${val}`);
+                this.tableData = [];//先清空表格数据
+                // 请求参数
+                var params = {
+                    pageSize: val// 改变页码
+                };
+                this.request('/verify/code', params, '查询失败', function (callback) {
+                });
+            },
+        }
     })
 </script>
 </body>
