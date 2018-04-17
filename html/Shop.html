@@ -271,6 +271,17 @@
                     <span slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB</span>
                 </el-upload>
             </el-form-item>
+            <el-form-item label="合同有效期" :label-width="formLabelWidth" prop="contractValidityValue">
+                <el-date-picker
+                        v-model="editeShopForm.contractValidityValue"
+                        type="datetimerange"
+                        :picker-options="pickerOptions"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        align="right">
+                </el-date-picker>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="editeShopDialogVisible = false">取 消</el-button>
@@ -372,7 +383,8 @@
                     //     name: 'food.jpeg',
                     //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
                     // }]
-                    fileList: []
+                    fileList: [],
+                    contractValidityValue:''
                 },
                 editeShopDialogRules: {// 编辑厂商 表单校验规则
                     col1: [
@@ -396,7 +408,38 @@
                     fileList: [
                         {required: true, validator: validateHetong, trigger: 'blur' }
                     ],
-                }
+                    contractValidityValue: [
+                        {required: true, message: '请选择合同有效期', trigger: 'blur' }
+                    ],
+                },
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近半年',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    },{
+                        text: '最近一年',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    },{
+                        text: '最近两年',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 730);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                contractValidityValue: '',//合同有效期
             }
         },
         methods: {
@@ -564,6 +607,7 @@
             },
             // 操作-编辑-更新 按钮点击事件
             editeShop(formName) {
+                console.log("选择的日期是="+this.contractValidityValue);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
