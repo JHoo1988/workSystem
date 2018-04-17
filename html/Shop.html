@@ -54,7 +54,7 @@
             </div>
             <div class="row2">
 
-                <el-button type="primary" size="mini" icon="el-icon-search" @click="search('aa')">搜索</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
                 <el-button type="primary" plain size="mini" icon="el-icon-plus">新建厂商</el-button>
                 <!--<el-button type="primary" plain size="mini" v-if="putIn" @click="putInConsole()">放入操作台<i-->
                 <!--class="el-icon-caret-right el-icon&#45;&#45;right"></i></el-button>-->
@@ -230,14 +230,15 @@
             </el-form-item>
             <el-form-item label="厂商类别" :label-width="formLabelWidth" prop="col4">
                 <el-select v-model="editeShopForm.col4" placeholder="请选择厂商类别">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                    <el-option label="生产类" value="production"></el-option>
+                    <el-option label="平台类" value="platform"></el-option>
+                    <el-option label="经营商类" value="distributor"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="厂商性质" :label-width="formLabelWidth" prop="col5">
                 <el-select v-model="editeShopForm.col5" placeholder="请选择厂商性质">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                    <el-option label="非TCL系" value="0"></el-option>
+                    <el-option label="TCL系" value="1"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="联系人" :label-width="formLabelWidth" prop="col6">
@@ -281,6 +282,26 @@
                         align="">
                 </el-date-picker>
             </el-form-item>
+            <el-form-item label="合同状态" :label-width="formLabelWidth" prop="col12">
+                <el-select v-model="editeShopForm.col12" placeholder="请选择合同状态">
+                    <el-option label="未生效" value="0"></el-option>
+                    <el-option label="已生效" value="1"></el-option>
+                    <el-option label="已失效" value="2"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="厂商状态" :label-width="formLabelWidth" prop="col14">
+                <el-select v-model="editeShopForm.col14" placeholder="请选择厂商状态">
+                    <el-option label="停用" value="0"></el-option>
+                    <el-option label="启用" value="1"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="品牌" :label-width="formLabelWidth" prop="col13">
+                <template>
+                    <el-checkbox-group v-model="editeShopForm.col13">
+                        <el-checkbox v-for="brand in editeShopForm.col13Options" :label="brand" :key="brand" value="11100"></el-checkbox>
+                    </el-checkbox-group>
+                </template>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="editeShopDialogVisible = false">取 消</el-button>
@@ -300,7 +321,7 @@
             var validateHetong = (rule, value, callback) => {
                 if (value.length <= 0) {
                     callback(new Error('请上传合同'));
-                } else if(!value[0].name.endsWith('.jpg')||!value[0].name.endsWith('.jpeg')||!value[0].name.endsWith('.png')){
+                } else if (!value[0].name.endsWith('.jpg') || !value[0].name.endsWith('.jpeg') || !value[0].name.endsWith('.png')) {
                     callback(new Error('请上传图片类型'));
                 } else {
                     callback();
@@ -383,7 +404,10 @@
                     //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
                     // }]
                     fileList: [],
-                    contractValidityValue:'',//合同有效期
+                    contractValidityValue: '',//合同有效期
+                    col12: '',//合同状态
+                    col13:[],//已选品牌集合，根据服务端返回的结果填入即可
+                    col13Options:['TCL','乐华','志高','雷鸟','美国西屋','商户平台-保内'],//品牌选项集合
                 },
                 editeShopDialogRules: {// 编辑厂商 表单校验规则
                     col1: [
@@ -405,92 +429,59 @@
                         {required: true, message: '请输入联系电话', trigger: 'blur'}
                     ],
                     fileList: [
-                        {required: true, validator: validateHetong, trigger: 'blur' }
+                        {required: true, validator: validateHetong, trigger: 'blur'}
                     ],
                     contractValidityValue: [
-                        {required: true, message: '请选择合同有效期', trigger: 'blur' }
+                        {required: true, message: '请选择合同有效期', trigger: 'blur'}
                     ],
+                    col12: [
+                        {required: true, message: '请选择合同状态', trigger: 'change'}
+                    ],
+                    col14: [
+                        {required: true, message: '请选择厂商状态', trigger: 'change'}
+                    ],
+                    col13: [
+                        {required: true, message: '请选择品牌', trigger: 'blur'}
+                    ]
                 },
             }
         },
         methods: {
             // 搜索按钮点击执行
-            search: function (bb) {
-                var $this = this;
-                $this.getAxiosInstance().post('/verify/code', {
-                    shop_no: $this.shop_no,// 厂商编码输入框的内容
-                    shop_name: $this.shop_name,// 厂商名称输入框的内容
-                    contacts: $this.contacts,// 联系人输入框的内容
-                    shopStatus: $this.shopStatus,// 用户选择的厂商状态
-                    checkStatus: $this.checkStatus,// 联系人输入框的内容
-                }).then(function (response) {
-                    if (response.status == 200) {
-                        if (response.data.code == '0000') {
-                            // 搜索有结果-把搜索到的结果赋值给tableData3;
-                            // $this.tableData=response.data.code;
+            search: function () {
+                // 请求参数
+                var params = {
+                    shop_no: this.shop_no,// 厂商编码输入框的内容
+                    shop_name: this.shop_name,// 厂商名称输入框的内容
+                    contacts: this.contacts,// 联系人输入框的内容
+                    shopStatus: this.shopStatus,// 用户选择的厂商状态
+                    checkStatus: this.checkStatus,// 联系人输入框的内容
+                };
+                this.request('/verify/code',params,'搜索失败',function (callback) {
+                    // 搜索有结果-把搜索到的结果赋值给tableData3;
+                    // $this.tableData=response.data.code;
 
-                            // 如果没有搜索到结果，执行下面的一段提示
-                            // $this.$alert('根据你设置的查询条件，没有搜索到相关厂商。', '提示', {
-                            //     confirmButtonText: '确定',
-                            //     type: 'warning',
-                            //     center: true,
-                            //     callback: action => {
-                            //         //点击确定后的操作
-                            //     }
-                            // });
-                        } else {
-                            // 其他返回结果
-                            $this.$message.warning(response.data.msg);
-                        }
-                    } else {
-                        $this.$message.error('搜索失败');
-                    }
-                }).catch(function (error) {
-                    if (error.response && error.response.status != 200) {
-                        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-                        $this.$message.error('搜索失败');
-                    } else {
-                        $this.$message.error('网络异常');
-                    }
+                    // 如果没有搜索到结果，执行下面的一段提示
+                    // $this.$alert('根据你设置的查询条件，没有搜索到相关厂商。', '提示', {
+                    //     confirmButtonText: '确定',
+                    //     type: 'warning',
+                    //     center: true,
+                    //     callback: action => {
+                    //         //点击确定后的操作
+                    //     }
+                    // });
                 });
             },
             // 分页点击执行
             handleCurrentChange(val) {
                 // 页数改变，需要改变查询
                 // console.log(`当前页: ${val}`);
-                var $this = this;
-                $this.tableData = [];//先清空表格数据
-                $this.getAxiosInstance().post('/verify/code', {
+                this.tableData = [];//先清空表格数据
+                // 请求参数
+                var params = {
                     pageSize: val// 改变页码
-                }).then(function (response) {
-                    if (response.status == 200) {
-                        if (response.data.code == '0000') {
-                            // 搜索有结果-把搜索到的结果赋值给tableData3;
-                            // $this.tableData=response.data.code;
-
-                            // 如果没有搜索到结果，执行下面的一段提示
-                            // $this.$alert('根据你设置的查询条件，没有搜索到相关厂商。', '提示', {
-                            //     confirmButtonText: '确定',
-                            //     type: 'warning',
-                            //     center: true,
-                            //     callback: action => {
-                            //         //点击确定后的操作
-                            //     }
-                            // });
-                        } else {
-                            // 其他返回结果
-                            $this.$message.warning(response.data.msg);
-                        }
-                    } else {
-                        $this.$message.error('查询失败');
-                    }
-                }).catch(function (error) {
-                    if (error.response && error.response.status != 200) {
-                        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-                        $this.$message.error('查询失败');
-                    } else {
-                        $this.$message.error('网络异常');
-                    }
+                };
+                this.request('/verify/code',params,'查询失败',function (callback) {
                 });
             },
             // 多选事件
@@ -543,25 +534,9 @@
                                 desc: $this.form.desc
                             }
                         }
-                        $this.getAxiosInstance().post(url, param).then(function (response) {
-                            if (response.status == 200) {
-                                if (response.data.code == '0000') {
-                                    // 审核操作成功;
-                                    $this.dialogFormVisible = false
-                                } else {
-                                    // 其他返回结果
-                                    $this.$message.warning(response.data.msg);
-                                }
-                            } else {
-                                $this.$message.error('审核失败');
-                            }
-                        }).catch(function (error) {
-                            if (error.response && error.response.status != 200) {
-                                // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-                                $this.$message.error('审核失败');
-                            } else {
-                                $this.$message.error('网络异常');
-                            }
+                        this.request(url,param,'审核失败',function (callback) {
+                            // 审核操作成功;
+                            $this.dialogFormVisible = false
                         });
                     } else {
                         return false;
@@ -572,27 +547,26 @@
             shopEditeClick(row) {
                 this.editeShopObject = row;
                 this.editeShopDialogVisible = true;
-                if(this.$refs['editeShopForm']){
+                if (this.$refs['editeShopForm']) {
                     this.$refs['editeShopForm'].resetFields();
                 }
             },
             // 操作-编辑-更新 按钮点击事件
             editeShop(formName) {
-                console.log("选择的日期是="+this.editeShopForm.contractValidityValue);
+                console.log("选择的日期是=" + this.editeShopForm.contractValidityValue);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
             },
-            uploadSuccess(response, file, fileList){
+            uploadSuccess(response, file, fileList) {
                 console.log(response);
                 console.log(fileList);
             },
-            uploadError(err, file, fileList){
+            uploadError(err, file, fileList) {
                 //合同上传失败
                 this.$message.warning(`合同上传失败，请重试`);
             },
@@ -606,10 +580,10 @@
                 this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             beforeUpload(file) {
-                if(file.type!="image/jpeg" && file.type!="image/png"){
+                if (file.type != "image/jpeg" && file.type != "image/png") {
                     this.$message.warning(`请上传jpg或png图片文件`);
                     return false;
-                } else if((file.size/1024) >= 2048){
+                } else if ((file.size / 1024) >= 2048) {
                     this.$message.warning(`请上传2MB以内的图片文件`);
                     return false;
                 }
@@ -642,6 +616,29 @@
                     return Promise.reject(error);
                 });
                 return instance;
+            },
+            // 请求封装
+            request(url,params,errorToast,callback){
+                var $this = this;
+                $this.getAxiosInstance().post(url, params).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == '0000') {
+                            callback(response.data.data);//请求结果回调
+                        } else {
+                            // 其他返回结果
+                            $this.$message.warning(response.data.msg);
+                        }
+                    } else {
+                        $this.$message.error(errorToast);
+                    }
+                }).catch(function (error) {
+                    if (error.response && error.response.status != 200) {
+                        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                        $this.$message.error(errorToast);
+                    } else {
+                        $this.$message.error('网络异常');
+                    }
+                });
             }
         }
     })
