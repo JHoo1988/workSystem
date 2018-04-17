@@ -53,9 +53,8 @@
                 </template>
             </div>
             <div class="row2">
-
                 <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
-                <el-button type="primary" plain size="mini" icon="el-icon-plus">新建厂商</el-button>
+                <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="createShopDialogVisible = true">新建厂商</el-button>
                 <!--<el-button type="primary" plain size="mini" v-if="putIn" @click="putInConsole()">放入操作台<i-->
                 <!--class="el-icon-caret-right el-icon&#45;&#45;right"></i></el-button>-->
                 <!--<el-badge :value="0" class="item">-->
@@ -154,7 +153,7 @@
                                 label="合同"
                                 width="50">
                             <template slot-scope="scope">
-                                <el-button @click="" type="text" size="small">下载</el-button>
+                                <el-button @click="downLoadContractClick(scope.row)" type="text" size="small">下载</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -308,6 +307,94 @@
             <el-button type="primary" @click="editeShop('editeShopForm')">更 新</el-button>
         </div>
     </el-dialog>
+    <el-dialog title="新建厂商" :visible.sync="createShopDialogVisible" :close-on-click-modal="false">
+        <el-form :model="createShopForm" :rules="editeShopDialogRules" ref="createShopForm">
+            <el-form-item label="厂商编码" :label-width="formLabelWidth" prop="col1">
+                <el-input v-model="createShopForm.col1" auto-complete="off" placeholder="请输入厂商编码"></el-input>
+            </el-form-item>
+            <el-form-item label="厂商名称" :label-width="formLabelWidth" prop="col3">
+                <el-input v-model="createShopForm.col3" auto-complete="off" placeholder="请输入厂商名称"></el-input>
+            </el-form-item>
+            <el-form-item label="厂商类别" :label-width="formLabelWidth" prop="col4">
+                <el-select v-model="createShopForm.col4" placeholder="请选择厂商类别">
+                    <el-option label="生产类" value="production"></el-option>
+                    <el-option label="平台类" value="platform"></el-option>
+                    <el-option label="经营商类" value="distributor"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="厂商性质" :label-width="formLabelWidth" prop="col5">
+                <el-select v-model="createShopForm.col5" placeholder="请选择厂商性质">
+                    <el-option label="非TCL系" value="0"></el-option>
+                    <el-option label="TCL系" value="1"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="联系人" :label-width="formLabelWidth" prop="col6">
+                <el-input v-model="createShopForm.col6" auto-complete="off" placeholder="请输入联系人"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话" :label-width="formLabelWidth" prop="col7">
+                <el-input v-model="createShopForm.col7" auto-complete="off" placeholder="请输入联系电话"></el-input>
+            </el-form-item>
+            <el-form-item label="住址" :label-width="formLabelWidth" prop="col8">
+                <el-input v-model="createShopForm.col8" auto-complete="off" placeholder="请输入住址"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" :label-width="formLabelWidth" prop="col9">
+                <el-input v-model="createShopForm.col9" auto-complete="off" placeholder="请输入备注"></el-input>
+            </el-form-item>
+            <el-form-item label="合同上传" :label-width="formLabelWidth" prop="fileList">
+                <el-upload
+                        class="upload-demo"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :before-upload="beforeUpload"
+                        :on-success="uploadSuccess"
+                        :on-error="uploadError"
+                        multiple
+                        :limit="1"
+                        :on-exceed="handleExceed"
+                        accept="image/*"
+                        list-type="picture"
+                        :file-list="createShopForm.fileList">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <span slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB</span>
+                </el-upload>
+            </el-form-item>
+            <el-form-item label="合同有效期" :label-width="formLabelWidth" prop="contractValidityValue">
+                <el-date-picker
+                        v-model="createShopForm.contractValidityValue"
+                        type="datetimerange"
+                        range-separator="至"
+                        end-placeholder="结束日期"
+                        start-placeholder="开始日期"
+                        align="">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="合同状态" :label-width="formLabelWidth" prop="col12">
+                <el-select v-model="createShopForm.col12" placeholder="请选择合同状态">
+                    <el-option label="未生效" value="0"></el-option>
+                    <el-option label="已生效" value="1"></el-option>
+                    <el-option label="已失效" value="2"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="厂商状态" :label-width="formLabelWidth" prop="col14">
+                <el-select v-model="createShopForm.col14" placeholder="请选择厂商状态">
+                    <el-option label="停用" value="0"></el-option>
+                    <el-option label="启用" value="1"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="品牌" :label-width="formLabelWidth" prop="col13">
+                <template>
+                    <el-checkbox-group v-model="createShopForm.col13">
+                        <el-checkbox v-for="brand in createShopForm.col13Options" :label="brand" :key="brand" value="11100"></el-checkbox>
+                    </el-checkbox-group>
+                </template>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="createShopDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="createShop('createShopForm')">新 建</el-button>
+        </div>
+    </el-dialog>
 </div>
 </body>
 <script src="../js/vue.js"></script>
@@ -409,7 +496,7 @@
                     col13:[],//已选品牌集合，根据服务端返回的结果填入即可
                     col13Options:['TCL','乐华','志高','雷鸟','美国西屋','商户平台-保内'],//品牌选项集合
                 },
-                editeShopDialogRules: {// 编辑厂商 表单校验规则
+                editeShopDialogRules: {// 编辑/新建 厂商 表单校验规则
                     col1: [
                         {required: true, message: '请输入厂商编码', trigger: 'blur'}
                     ],
@@ -444,6 +531,26 @@
                         {required: true, message: '请选择品牌', trigger: 'blur'}
                     ]
                 },
+                createShopDialogVisible: false, // “新建厂商”dialog是否显示
+                createShopForm: {// 编辑厂商 表单对象
+                    col1: '',// 厂商编码
+                    col3: '',// 厂商名称
+                    col4: '',// 厂商类别
+                    col5: '',// 厂商性质
+                    col6: '',// 联系人
+                    col7: '',// 联系电话
+                    col8: '',// 住址
+                    col9: '',// 备注
+                    // fileList: [{// 合同
+                    //     name: 'food.jpeg',
+                    //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+                    // }]
+                    fileList: [],
+                    contractValidityValue: '',//合同有效期
+                    col12: '',//合同状态
+                    col13:[],//已选品牌集合，根据服务端返回的结果填入即可
+                    col13Options:['TCL','乐华','志高','雷鸟','美国西屋','商户平台-保内'],//品牌选项集合
+                }
             }
         },
         methods: {
@@ -556,13 +663,24 @@
                 console.log("选择的日期是=" + this.editeShopForm.contractValidityValue);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        var params={
+                            // 编辑厂商要传的参数
+                        };
+                        this.request('',params,'编辑失败',function (callback) {
+                            // 重置表单
+                            if (this.$refs['editeShopForm']) {
+                                this.$refs['editeShopForm'].resetFields();
+                            }
+                            // 关闭dialog
+                            this.editeShopDialogVisible = false;
+                        });
                     } else {
                         return false;
                     }
                 });
             },
             uploadSuccess(response, file, fileList) {
+                // 合同上传成功
                 console.log(response);
                 console.log(fileList);
             },
@@ -577,9 +695,9 @@
                 console.log(file);
             },
             handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+                this.$message.warning(`当前限制上传1个文件`);
             },
-            beforeUpload(file) {
+            beforeUpload(file) {// 合同上传之前的判断：判断大小和类型
                 if (file.type != "image/jpeg" && file.type != "image/png") {
                     this.$message.warning(`请上传jpg或png图片文件`);
                     return false;
@@ -587,6 +705,31 @@
                     this.$message.warning(`请上传2MB以内的图片文件`);
                     return false;
                 }
+            },
+            // 合同-下载 点击事件
+            downLoadContractClick(row) {
+                this.editeShopObject = row;
+            },
+            // 新建厂商dialog中 新建 按钮点击事件
+            createShop(formName) {
+                console.log("选择的日期是=" + this.createShopForm.contractValidityValue);
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var params={
+                            // 编辑厂商要传的参数
+                        };
+                        this.request('',params,'新建厂商失败',function (callback) {
+                            // 重置表单
+                            if (this.$refs['createShopForm']) {
+                                this.$refs['createShopForm'].resetFields();
+                            }
+                            // 关闭dialog
+                            this.createShopDialogVisible = false;
+                        });
+                    } else {
+                        return false;
+                    }
+                });
             },
             getAxiosInstance: function () {
                 var _self = this;
