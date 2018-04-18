@@ -29,6 +29,9 @@ body {
 .el-main .searchItem{
     margin-top: 10px;
 }
+.el-main .searchItem.margin-right-10{
+    margin-right: 10px;
+}
 .el-main .el-pagination {
     margin-top: 15px;
     text-align: center;
