@@ -138,14 +138,24 @@ var vue = new Vue({
                     {name: '空调', value: '0'},
                     {name: '冰洗', value: '1'},
                 ],
-                selfReceiptbusinessCategorySelected:'',
+                shopOptions: [
+                    {name: '乐华', value: '0'},
+                    {name: '雷鸟', value: '1'},
+                ],
+                selfReceiptbusinessCategorySelected: '',//自接单-选择的业务类型
+                selfReceiptShopSelected: '',//自接单-选择的厂商
             },
             selfReceiptRules: {
                 selfReceiptbusinessCategorySelected: [
                     {required: true, message: '请选择业务类型', trigger: 'change'}
                 ],
+                selfReceiptShopSelected: [
+                    {required: true, message: '请选择厂商', trigger: 'change'}
+                ],
 
-            }
+            },
+            selfReceiptTooltipShow: false,// 自接单页面选择厂商的tips提示
+            selfReceiptSelectShow: true,// 自接单页面选择厂商的选择框是否可用
         }
 
     },
@@ -185,12 +195,23 @@ var vue = new Vue({
         },
         // 搜索栏上的“自接单”按钮的出发事件
         selfReceipt: function () {
-            this.selfReceiptDialog = true;
-            // // 请求参数
-            // var params = {};
-            // this.request('/verify/code', params, '业务类型加载失败', function (callback) {
-            //     this.selfReceiptDialog = true;
-            // });
+            // 请求参数
+            var params = {};
+            this.request('/verify/code', params, '业务类型加载失败', function (callback) {
+                // 把请求的结果给业务类型选项
+                this.selfReceiptForm.businessCategoryOptions = callback;
+                this.selfReceiptDialog = true;
+            });
+        },
+        // 自接单-业务类型 选择框改变请求参数列表选项
+        selfReceiptChange: function (val) {
+            var param = {};
+            this.request('/verify/code', param, '获取厂商列表失败', function (callback) {
+                // 厂商列表获取成功;
+                this.selfReceiptForm.shopOptions = callback;
+                this.selfReceiptTooltipShow = true;// 自接单页面选择厂商的tips提示
+                this.selfReceiptSelectShow = false;// 自接单页面选择厂商的选择框是否可用
+            });
         },
         // 操作-审核-确定 按钮点击事件
         examine(formName, value) {
@@ -198,9 +219,8 @@ var vue = new Vue({
             var $this = this;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    var param = {
-                    }
-                    this.request('/verify/code',param,'自接单失败',function (callback) {
+                    var param = {}
+                    this.request('/verify/code', param, '自接单失败', function (callback) {
                         // 审核操作成功;
                         $this.selfReceiptDialog = false;
                     });

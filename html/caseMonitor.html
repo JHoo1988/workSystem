@@ -148,17 +148,20 @@
             </el-pagination>
         </el-main>
     </el-container>
-    <el-dialog title="自接单" :visible.sync="selfReceiptDialog">
+    <el-dialog title="自接单" :visible.sync="selfReceiptDialog" width="400px">
         <el-form :model="selfReceiptForm" :rules="selfReceiptRules" ref="selfReceiptForm">
             <el-form-item label="业务类型" :label-width="formLabelWidth" prop="selfReceiptbusinessCategorySelected">
-                <el-select v-model="selfReceiptForm.selfReceiptbusinessCategorySelected" placeholder="请选择业务类型">
+                <el-select @change="selfReceiptChange" v-model="selfReceiptForm.selfReceiptbusinessCategorySelected" placeholder="请选择业务类型">
                     <el-option v-for="businessCategory in selfReceiptForm.businessCategoryOptions" :label="businessCategory.name" :key="businessCategory.value" :value="businessCategory.value" ></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="选择厂商" :label-width="formLabelWidth" prop="selfReceiptbusinessCategorySelected">
-                <el-select v-model="selfReceiptForm.selfReceiptbusinessCategorySelected" placeholder="请选择业务类型">
-                    <el-option v-for="businessCategory in selfReceiptForm.businessCategoryOptions" :label="businessCategory.name" :key="businessCategory.value" :value="businessCategory.value" ></el-option>
-                </el-select>
+            <el-form-item label="选择厂商" :label-width="formLabelWidth" prop="selfReceiptShopSelected">
+                <el-tooltip class="item" effect="dark" content="请先选择业务类型" placement="bottom" :disabled="selfReceiptTooltipShow">
+                    <el-select v-model="selfReceiptForm.selfReceiptShopSelected" placeholder="请选择厂商" :disabled="selfReceiptSelectShow">
+                        <el-option v-for="shop in selfReceiptForm.shopOptions" :label="shop.name" :key="shop.value" :value="shop.value" ></el-option>
+                    </el-select>
+                </el-tooltip>
+
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -174,5 +177,6 @@
 <!--<script>-->
 <!--vue._data.paginationTotal=50;-->
 <!--</script>-->
+
 </body>
 </html>
