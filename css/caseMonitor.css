@@ -1,16 +1,3 @@
-.el-main{
-    padding-top: 10px;
-}
-.el-main .row1 {
-    display: -webkit-flex;
-    display: flex;
-    flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-}
-.el-main .searchItem{
-    margin-top: 10px;
-}
 .el-main .row1 .el-input-group {
     width: auto;
     margin-right: 10px;

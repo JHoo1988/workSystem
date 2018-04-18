@@ -1,18 +1,4 @@
 
-
-/*.el-main{*/
-/*display: -webkit-flex; !* Safari *!*/
-/*display: flex;*/
-/*flex-direction: row ;*/
-/*flex-wrap: nowrap;*/
-/*-ms-flex-wrap: nowrap;*/
-/*-webkit-flex-wrap: nowrap;*/
-/*justify-content: space-between;*/
-/*-webkit-justify-content: space-between;*/
-/*align-items: flex-start;*/
-/*-webkit-align-items: flex-start;*/
-/*align-content:center;*/
-/*}*/
 .el-main .row1 .el-input-group {
     width: auto;
     margin-right: 10px;
@@ -26,21 +12,13 @@
 /*.el-main .el-select .el-input {*/
 /*width: 120px;*/
 /*}*/
-.el-main .row2 .el-input {
-    margin-right: 10px;
-}
 
 .el-main .el-select .el-input--suffix {
     width: 100px;
 }
 
-.el-main .row2, .el-main .row3 {
+.el-main .row3 {
     margin-top: 15px;
-}
-
-.el-main .row2 .el-pagination {
-    display: inline-block;
-    margin-left: 20px;
 }
 
 .el-table th.is-leaf {
