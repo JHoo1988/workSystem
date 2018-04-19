@@ -7,3 +7,9 @@
     width: 120px;
     margin-right: 10px;
 }
+.el-main .el-table{
+    margin-top: 15px;
+}
+.el-main .el-table th.is-leaf {
+    background: #f5f7fa;
+}

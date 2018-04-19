@@ -157,7 +157,6 @@ var vue = new Vue({
             selfReceiptTooltipShow: false,// 自接单页面选择厂商的tips提示
             selfReceiptSelectShow: true,// 自接单页面选择厂商的选择框是否可用
             selectMoreCase: false,// 搜索条件-是否选择了多个case单
-            selectOneCase: false,// 搜索条件-是否选择了一个case单
             tableData: [{
                 col1: 'SFDJJSONG',
                 col2: '10000032',
@@ -191,6 +190,8 @@ var vue = new Vue({
                 col14: '启用',
                 col15: '已审核',
             }],
+            currentPage:1,
+            multipleSelection: [],//多选所选中的项
         }
 
     },
@@ -227,6 +228,35 @@ var vue = new Vue({
                 //     }
                 // });
             });
+        },
+        // 每一页显示的条数变化
+        handleSizeChange(val){
+            console.log('每页 '+val+' 条');
+
+        },
+        // 分页点击执行
+        handleCurrentChange(val) {
+            // 页数改变，需要改变查询
+            // console.log(`当前页: ${val}`);
+            this.currentPage = val;
+            this.tableData = [];//先清空表格数据
+            // 请求参数
+            var params = {
+                pageSize: val// 改变页码
+            };
+            this.request('/verify/code',params,'查询失败',function (callback) {
+            });
+        },
+        // 多选事件
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+            if (this.multipleSelection.length > 0) {
+                this.putIn = true;
+                this.selectMoreCase = true;
+            } else {
+                this.putIn = false;
+                this.selectMoreCase = false;
+            }
         },
         // 搜索栏上的“自接单”按钮的出发事件
         selfReceipt: function () {
