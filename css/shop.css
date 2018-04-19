@@ -29,20 +29,24 @@
     margin-left: 10px;
 }
 
-.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-input {
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-input,
+.el-dialog__wrapper.editeShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-input{
     width: 650px;
 }
-.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox+.el-checkbox{
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox+.el-checkbox,
+.el-dialog__wrapper.editeShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox+.el-checkbox{
     margin-left: 0px;
 }
-.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox{
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox,
+.el-dialog__wrapper.editeShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox{
     margin-right: 30px;
 }
-.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form{
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form,
+.el-dialog__wrapper.editeShopDialog .el-dialog .el-dialog__body .el-form{
     max-width: 800px;
 }
 
-.el-dialog__wrapper.creatNewShopDialog .el-dialog{
+.el-dialog__wrapper.creatNewShopDialog .el-dialog,.el-dialog__wrapper.editeShopDialog .el-dialog{
     display: flex;
     display: -moz-flex;
     display: -ms-flex;
