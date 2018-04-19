@@ -409,6 +409,59 @@ new Vue({
                     $this.$message.error('网络异常');
                 }
             });
+        },
+        getAxiosInstanceGet: function () {
+            var _self = this;
+            var instance = axios.create({
+                baseURL: "http://120.76.157.13:666/mapi",
+                method: 'get'
+            });
+            instance.interceptors.request.use(function (config) {
+                // 在发送请求之前做些什么
+                _self.loading = true;
+                return config;
+            }, function (error) {
+                // 对请求错误做些什么
+                _self.loading = false;
+                _self.$message.error('加载失败');
+                return Promise.reject(error);
+            });
+            instance.interceptors.response.use(function (response) {
+                //对响应数据做点什么
+                // 关闭加载框
+                _self.loading = false;
+                return response;
+            }, function (error) {
+                // 对响应错误做点什么 error.response.status
+                // 关闭加载框
+                _self.loading = false;
+                return Promise.reject(error);
+            });
+            return instance;
+        },
+        // 请求封装
+        requestGet(url,params,errorToast,callback){
+            var $this = this;
+            $this.getAxiosInstance().get(url, {
+                params: params}).then(function (response) {
+                if (response.status == 200) {
+                    if (response.data.code == '0000') {
+                        callback(response.data.data);//请求结果回调
+                    } else {
+                        // 其他返回结果
+                        $this.$message.warning(response.data.msg);
+                    }
+                } else {
+                    $this.$message.error(errorToast);
+                }
+            }).catch(function (error) {
+                if (error.response && error.response.status != 200) {
+                    // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+                    $this.$message.error(errorToast);
+                } else {
+                    $this.$message.error('网络异常');
+                }
+            });
         }
     }
 })

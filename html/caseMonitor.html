@@ -138,7 +138,22 @@
                     <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
                 </div>
                 <div class="searchItem margin-right-10">
-                    <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="selfReceipt()">自接单</el-button>
+                    <el-button type="primary" plain  size="mini" icon="el-icon-plus" @click="selfReceipt()">自接单</el-button>
+                </div>
+                <div class="searchItem margin-right-10">
+                    <el-button type="primary" disabled size="mini" @click="selfReceipt()">定向派工</el-button>
+                </div>
+                <div class="searchItem margin-right-10">
+                    <el-button type="primary" disabled size="mini" @click="selfReceipt()">手动分发</el-button>
+                </div>
+                <div class="searchItem margin-right-10">
+                    <el-button type="primary" disabled size="mini" @click="selfReceipt()">补充case</el-button>
+                </div>
+                <div class="searchItem margin-right-10">
+                    <el-button type="primary" disabled size="mini" @click="selfReceipt()">标记重点</el-button>
+                </div>
+                <div class="searchItem margin-right-10">
+                    <el-button type="primary" disabled size="mini" @click="selfReceipt()">退单</el-button>
                 </div>
             </div>
             <el-pagination
