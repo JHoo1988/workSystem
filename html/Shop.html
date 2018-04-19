@@ -201,9 +201,12 @@
             </div>
             <el-pagination
                     background
+                    @size-change="handleSizeChange"
+                    :current-page="currentPage"
                     @current-change="handleCurrentChange"
+                    :page-sizes="[20, 50, 100, 200]"
                     :page-size="paginationPageSize"
-                    layout="total, prev, pager, next, jumper"
+                    layout="total,sizes, prev, pager, next, jumper"
                     :total="paginationTotal">
             </el-pagination>
         </el-main>
@@ -230,7 +233,7 @@
             <el-button type="primary" @click="examine('form',examineShopObject.col2)">确 定</el-button>
         </div>
     </el-dialog>
-    <el-dialog title="编辑" :visible.sync="editeShopDialogVisible" :close-on-click-modal="false">
+    <el-dialog title="编辑" class="editeShopDialog" :fullscreen="true" :visible.sync="editeShopDialogVisible" :close-on-click-modal="false">
         <el-form :model="editeShopForm" :rules="editeShopDialogRules" ref="editeShopForm">
             <el-form-item label="厂商编码" :label-width="formLabelWidth" prop="col1">
                 <el-input v-model="editeShopForm.col1" auto-complete="off" placeholder="请输入厂商编码"></el-input>
@@ -308,7 +311,7 @@
             <el-form-item label="品牌" :label-width="formLabelWidth" prop="col13">
                 <template>
                     <el-checkbox-group v-model="editeShopForm.col13">
-                        <el-checkbox v-for="brand in editeShopForm.col13Options" :label="brand" :key="brand"></el-checkbox>
+                        <el-checkbox v-for="brand in editeShopForm.col13Options" :label="brand" :key="brand" name="brand"></el-checkbox>
                     </el-checkbox-group>
                 </template>
             </el-form-item>
@@ -318,7 +321,7 @@
             <el-button type="primary" @click="editeShop('editeShopForm')">更 新</el-button>
         </div>
     </el-dialog>
-    <el-dialog title="新建厂商" :visible.sync="createShopDialogVisible" :close-on-click-modal="false">
+    <el-dialog title="新建厂商" class="creatNewShopDialog" :fullscreen="true" :visible.sync="createShopDialogVisible" :close-on-click-modal="false">
         <el-form :model="createShopForm" :rules="editeShopDialogRules" ref="createShopForm">
             <el-form-item label="厂商编码" :label-width="formLabelWidth" prop="col1">
                 <el-input v-model="createShopForm.col1" auto-complete="off" placeholder="请输入厂商编码"></el-input>
@@ -396,7 +399,7 @@
             <el-form-item label="品牌" :label-width="formLabelWidth" prop="col13">
                 <template>
                     <el-checkbox-group v-model="createShopForm.col13">
-                        <el-checkbox v-for="brand in createShopForm.col13Options" :label="brand" :key="brand" value="11100"></el-checkbox>
+                        <el-checkbox v-for="brand in createShopForm.col13Options" :label="brand" :key="brand" name="brand"></el-checkbox>
                     </el-checkbox-group>
                 </template>
             </el-form-item>

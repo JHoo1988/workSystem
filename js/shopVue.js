@@ -167,6 +167,7 @@ new Vue({
                 col12: '',//合同状态
                 col13:[],//已选品牌集合，根据服务端返回的结果填入即可
                 col13Options:['TCL','乐华','志高','雷鸟','美国西屋','商户平台-保内'],//品牌选项集合
+                currentPage:1
             }
         }
     },
@@ -196,10 +197,16 @@ new Vue({
                 // });
             });
         },
+        // 每一页显示的条数变化
+        handleSizeChange(val){
+            console.log('每页 '+val+' 条');
+
+        },
         // 分页点击执行
         handleCurrentChange(val) {
             // 页数改变，需要改变查询
             // console.log(`当前页: ${val}`);
+            this.currentPage = val;
             this.tableData = [];//先清空表格数据
             // 请求参数
             var params = {

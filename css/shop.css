@@ -28,3 +28,29 @@
 .el-dialog .el-dialog__body .el-form .el-upload__tip {
     margin-left: 10px;
 }
+
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-input {
+    width: 650px;
+}
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox+.el-checkbox{
+    margin-left: 0px;
+}
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group .el-checkbox{
+    margin-right: 30px;
+}
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form{
+    max-width: 800px;
+}
+
+.el-dialog__wrapper.creatNewShopDialog .el-dialog{
+    display: flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: -webkit-flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+}
