@@ -156,6 +156,8 @@ var vue = new Vue({
             },
             selfReceiptTooltipShow: false,// 自接单页面选择厂商的tips提示
             selfReceiptSelectShow: true,// 自接单页面选择厂商的选择框是否可用
+            selectMoreCase: false,// 搜索条件-是否选择了多个case单
+            selectOneCase: false,// 搜索条件-是否选择了一个case单
         }
 
     },
