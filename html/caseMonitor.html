@@ -144,46 +144,185 @@
                 <el-tooltip class="item" effect="dark" content="请先选择一个或多个case单" placement="bottom"
                             :disabled="selectMoreCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="selfReceipt()">定向派工</el-button>
+                        <el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="selfReceipt()">定向派工
+                        </el-button>
                     </div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="请先选择一个case单" placement="bottom"
                             :disabled="selectOneCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">手动分发</el-button>
+                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">手动分发
+                        </el-button>
                     </div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="请先选择一个case单" placement="bottom"
                             :disabled="selectOneCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">补充case</el-button>
+                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">补充case
+                        </el-button>
                     </div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="请先选择一个case单" placement="bottom"
                             :disabled="selectOneCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">标记重点</el-button>
+                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">标记重点
+                        </el-button>
                     </div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="请先选择一个case单" placement="bottom"
                             :disabled="selectOneCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">退单</el-button>
+                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">退单
+                        </el-button>
                     </div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="请先选择一个case单" placement="bottom"
                             :disabled="selectOneCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">咨询</el-button>
+                        <el-button type="primary" :disabled="!selectOneCase" size="mini" @click="selfReceipt()">咨询
+                        </el-button>
                     </div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="请先选择一个或多个case单" placement="bottom"
                             :disabled="selectMoreCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="selfReceipt()">导出</el-button>
+                        <el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="selfReceipt()">导出
+                        </el-button>
                     </div>
                 </el-tooltip>
             </div>
+            <template>
+                <el-table
+                        ref="multipleTable"
+                        :data="tableData"
+                        border
+                        stripe
+                        style="width: 100%"
+                        @selection-change="handleSelectionChange">
+                    <el-table-column
+                            type="selection"
+                            width="35">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="left"
+                            label="操作"
+                            width="310">
+                        <template slot-scope="scope">
+                            <el-button @click="shopEditeClick(scope.row)" type="text" size="small" v-if="scope.row">
+                                手动分发
+                            </el-button>
+                            <el-button @click="shopExamineClick(scope.row)" type="text" size="small" v-if="scope.row">
+                                补充case
+                            </el-button>
+                            <el-button @click="tableEdite(scope.row)" type="text" size="small" v-if="scope.row">
+                                标记重点
+                            </el-button>
+                            <el-button @click="placeAnOrder(scope.row)" type="text" size="small" v-if="scope.row">
+                                退单
+                            </el-button>
+                            <el-button @click="placeAnOrder(scope.row)" type="text" size="small" v-if="scope.row">
+                                咨询
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="col1"
+                            label="厂商编码"
+                            show-overflow-tooltip
+                            width="110">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col2"
+                            label="厂商ID"
+                            show-overflow-tooltip
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col3"
+                            label="厂商名称"
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col4"
+                            label="厂商类别"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col5"
+                            label="厂商性质"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col6"
+                            label="联系人"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col7"
+                            label="联系电话"
+                            show-overflow-tooltip
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col8"
+                            label="地址"
+                            show-overflow-tooltip
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col9"
+                            label="备注"
+                            show-overflow-tooltip
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            label="合同"
+                            width="50">
+                        <template slot-scope="scope">
+                            <el-button @click="downLoadContractClick(scope.row)" type="text" size="small">下载</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="col10"
+                            label="合同开始时间"
+                            show-overflow-tooltip
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col11"
+                            label="合同结束时间"
+                            show-overflow-tooltip
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col12"
+                            label="合同状态"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col13"
+                            label="品牌"
+                            show-overflow-tooltip
+                            width="150">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col14"
+                            label="厂商状态"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col15"
+                            label="审核状态"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                </el-table>
+            </template>
             <el-pagination
                     background
                     @current-change="handleCurrentChange"
