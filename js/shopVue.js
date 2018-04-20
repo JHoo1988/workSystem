@@ -240,6 +240,7 @@ new Vue({
         // 操作-审核按钮 点击事件
         shopExamineClick(row) {
             this.examineShopObject = row;
+            console.log(this.examineShopObject);
             this.examineRadio = 0;
             this.form.desc = '';
             this.dialogFormVisible = true;
@@ -346,19 +347,21 @@ new Vue({
         },
         // 新建厂商dialog中 新建 按钮点击事件
         createShop(formName) {
-            console.log("选择的日期是=" + this.createShopForm.contractValidityValue);
-            this.$refs[formName].validate((valid) => {
+            var $this = this;
+            console.log("选择的日期是=" + $this.createShopForm.contractValidityValue);
+            $this.$refs[formName].validate((valid) => {
                 if (valid) {
                     var params={
-                        // 编辑厂商要传的参数
+                        // 新建厂商要传的参数
+                        createShopForm:$this.createShopForm
                     };
-                    this.request('',params,'新建厂商失败',function (callback) {
+                    $this.request('',params,'新建厂商失败',function (callback) {
                         // 重置表单
-                        if (this.$refs['createShopForm']) {
-                            this.$refs['createShopForm'].resetFields();
+                        if ($this.$refs['createShopForm']) {
+                            $this.$refs['createShopForm'].resetFields();
                         }
                         // 关闭dialog
-                        this.createShopDialogVisible = false;
+                        $this.createShopDialogVisible = false;
                     });
                 } else {
                     return false;

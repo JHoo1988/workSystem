@@ -28,7 +28,19 @@
 .el-dialog .el-dialog__body .el-form .el-upload__tip {
     margin-left: 10px;
 }
-
+.el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group,
+.el-dialog__wrapper.editeShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-checkbox-group{
+    display:flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: -webkit-flex;
+    flex-wrap:wrap;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content:space-between;
+    -webkit-justify-content: space-between;
+}
 .el-dialog__wrapper.creatNewShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-input,
 .el-dialog__wrapper.editeShopDialog .el-dialog .el-dialog__body .el-form .el-form-item .el-form-item__content .el-input{
     width: 650px;
