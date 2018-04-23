@@ -55,59 +55,22 @@ var vue = new Vue({
                 value: '408',
                 label: '5级CASE单'
             }],
-            caseStatuSelected: '',//搜索条件输入框-选择的case状态
-            caseStatuArray: [{ //搜索条件输入框-case级别状态
-                value: 'SS_1100',
-                label: '受理中'
+            workStatuSelected: '',//搜索条件输入框-选择的case状态
+            workStatuArray: [{ //搜索条件输入框-工单状态
+                value: 'OS_100',
+                label: '待接单'
             }, {
-                value: 'SS_1400',
-                label: '待处理'
-            }, {
-                value: 'SS_1600',
-                label: '待回拨'
-            }, {
-                value: 'SS_4100',
-                label: '待派工'
-            }, {
-                value: 'SS_4400',
-                label: '待抢单'
-            }, {
-                value: 'SS_4700',
+                value: 'OS_400',
                 label: '待回单'
             }, {
-                value: 'SS_6100',
-                label: '待回访'
+                value: 'OS_700',
+                label: '已回过程单'
             }, {
-                value: 'SS_6400',
-                label: '回访中'
+                value: 'OS_900',
+                label: '已关闭'
             }, {
-                value: 'SS_9100',
-                label: '结束'
-            }, {
-                value: 'SS_CLOSEVISIT',
-                label: '结束回访任务'
-            }, {
-                value: 'SS_REMIND',
-                label: '提醒'
-            }, {
-                value: 'SS_1100,SS_1400,SS_1600,SS_4100,SS_4400,SS_4700,SS_REMIND',
+                value: 'OS_100,OS_400,OS_700,SS_W_REMIND',
                 label: '未关闭'
-            }],
-            superviseSelected: '',//搜索条件输入框-选择的是否督办
-            superviseArray: [{ //搜索条件输入框-是否督办选项
-                value: '0',
-                label: '否'
-            }, {
-                value: '1',
-                label: '是'
-            }],
-            importantSelected: '',//搜索条件输入框-选择的是否重点
-            importantArray: [{ //搜索条件输入框-是否重点选项
-                value: '0',
-                label: '否'
-            }, {
-                value: '1',
-                label: '是'
             }],
             processeSourceSelected: '',//搜索条件输入框-选择的处理来源
             processeSourceArray: [{ //搜索条件输入框-处理来源选项
@@ -123,24 +86,11 @@ var vue = new Vue({
                 value: 'SS_1401',
                 label: '重新处理'
             }],
-            sourceTypeSelected: '',//搜索条件输入框-选择的来源类型
-            sourceTypeArray: [{ //搜索条件输入框-来源类型选项
-                value: '0',
-                label: '受理'
-            }, {
-                value: '1',
-                label: '自接单'
-            }, {
-                value: '2',
-                label: '导入'
-            }, {
-                value: '3',
-                label: '接口'
-            }],
             caseNoSearch: '',//搜索条件输入框-case单号
             originalNoSearch: '',//搜索条件输入框-原始单号
-            customerNameSearch: '',//搜索条件输入框-客户姓名
+            officeSearch: '',//搜索条件输入框-办事处
             customerPhoneNoSearch: '',//搜索条件输入框-客户电话
+            newWorkNoSearch: '',//搜索条件输入框-新工单号
             shopSearch: '',//搜索条件输入框-所属门店
             orderSourceSearch: '',//搜索条件输入框-订单来源
             selfReceiptDialog: false,// 是否显示“自接单”dialog

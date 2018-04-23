@@ -29,6 +29,39 @@
                     </template>
                 </div>
                 <div class="searchItem">
+                    <span class="title">工单状态：</span>
+                    <template>
+                        <el-select v-model="workStatuSelected" placeholder="请选择" size="mini">
+                            <el-option
+                                    v-for="item in workStatuArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">办事处：</span>
+                    <el-input placeholder="请输办事处" v-model="officeSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">客户电话：</span>
+                    <el-input placeholder="请输客户电话" v-model="customerPhoneNoSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">case单号：</span>
+                    <el-input placeholder="请输case单号" v-model="caseNoSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">新工单号：</span>
+                    <el-input placeholder="请输新工单号" v-model="newWorkNoSearch" size="mini">
+                    </el-input>
+                </div>
+                <div class="searchItem">
                     <span class="title">case级别：</span>
                     <el-select v-model="caseLevelSelected" placeholder="请选择" size="mini">
                         <el-option
@@ -38,45 +71,6 @@
                                 :value="item.value">
                         </el-option>
                     </el-select>
-                </div>
-                <div class="searchItem">
-                    <span class="title">case状态：</span>
-                    <template>
-                        <el-select v-model="caseStatuSelected" placeholder="请选择" size="mini">
-                            <el-option
-                                    v-for="item in caseStatuArray"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </template>
-                </div>
-                <div class="searchItem">
-                    <span class="title">是否督办：</span>
-                    <template>
-                        <el-select v-model="superviseSelected" placeholder="请选择" size="mini">
-                            <el-option
-                                    v-for="item in superviseArray"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </template>
-                </div>
-                <div class="searchItem">
-                    <span class="title">是否重点：</span>
-                    <template>
-                        <el-select v-model="importantSelected" placeholder="请选择" size="mini">
-                            <el-option
-                                    v-for="item in importantArray"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </template>
                 </div>
                 <div class="searchItem">
                     <span class="title">处理来源：</span>
@@ -92,36 +86,8 @@
                     </template>
                 </div>
                 <div class="searchItem">
-                    <span class="title">来源类型：</span>
-                    <template>
-                        <el-select v-model="sourceTypeSelected" placeholder="请选择" size="mini">
-                            <el-option
-                                    v-for="item in sourceTypeArray"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </template>
-                </div>
-                <div class="searchItem">
-                    <span class="title">case单号：</span>
-                    <el-input placeholder="请输case单号" v-model="caseNoSearch" size="mini">
-                    </el-input>
-                </div>
-                <div class="searchItem">
                     <span class="title">原始单号：</span>
                     <el-input placeholder="请输原始单号" v-model="originalNoSearch" size="mini">
-                    </el-input>
-                </div>
-                <div class="searchItem">
-                    <span class="title">客户姓名：</span>
-                    <el-input placeholder="请输客户姓名" v-model="customerNameSearch" size="mini">
-                    </el-input>
-                </div>
-                <div class="searchItem">
-                    <span class="title">客户电话：</span>
-                    <el-input placeholder="请输客户电话" v-model="customerPhoneNoSearch" size="mini">
                     </el-input>
                 </div>
                 <div class="searchItem">
