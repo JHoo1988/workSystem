@@ -93,31 +93,7 @@ var vue = new Vue({
             newWorkNoSearch: '',//搜索条件输入框-新工单号
             shopSearch: '',//搜索条件输入框-所属门店
             orderSourceSearch: '',//搜索条件输入框-订单来源
-            selfReceiptDialog: false,// 是否显示“自接单”dialog
             formLabelWidth: '100px',
-            selfReceiptForm: {
-                businessCategoryOptions: [
-                    {name: '空调', value: '0'},
-                    {name: '冰洗', value: '1'},
-                ],
-                shopOptions: [
-                    {name: '乐华', value: '0'},
-                    {name: '雷鸟', value: '1'},
-                ],
-                selfReceiptbusinessCategorySelected: '',//自接单-选择的业务类型
-                selfReceiptShopSelected: '',//自接单-选择的厂商
-            },
-            selfReceiptRules: {
-                selfReceiptbusinessCategorySelected: [
-                    {required: true, message: '请选择业务类型', trigger: 'change'}
-                ],
-                selfReceiptShopSelected: [
-                    {required: true, message: '请选择厂商', trigger: 'change'}
-                ],
-
-            },
-            selfReceiptTooltipShow: false,// 自接单页面选择厂商的tips提示
-            selfReceiptSelectShow: true,// 自接单页面选择厂商的选择框是否可用
             selectMoreCase: false,// 搜索条件-是否选择了多个case单
             tableData: [{
                 col1: 'SFDJJSONG',
@@ -158,18 +134,6 @@ var vue = new Vue({
 
     },
     methods: {
-        // 分页点击执行
-        handleCurrentChange(val) {
-            // 页数改变，需要改变查询
-            // console.log(`当前页: ${val}`);
-            this.tableData = [];//先清空表格数据
-            // 请求参数
-            var params = {
-                pageSize: val// 改变页码
-            };
-            this.request('/verify/code', params, '查询失败', function (callback) {
-            });
-        },
         // 搜索按钮点击执行
         search: function () {
             // 请求参数
@@ -219,42 +183,6 @@ var vue = new Vue({
                 this.putIn = false;
                 this.selectMoreCase = false;
             }
-        },
-        // 搜索栏上的“自接单”按钮的出发事件
-        selfReceipt: function () {
-            // 请求参数
-            var params = {};
-            this.request('/verify/code', params, '业务类型加载失败', function (callback) {
-                // 把请求的结果给业务类型选项
-                this.selfReceiptForm.businessCategoryOptions = callback;
-                this.selfReceiptDialog = true;
-            });
-        },
-        // 自接单-业务类型 选择框改变请求参数列表选项
-        selfReceiptChange: function (val) {
-            var param = {};
-            this.request('/verify/code', param, '获取厂商列表失败', function (callback) {
-                // 厂商列表获取成功;
-                this.selfReceiptForm.shopOptions = callback;
-                this.selfReceiptTooltipShow = true;// 自接单页面选择厂商的tips提示
-                this.selfReceiptSelectShow = false;// 自接单页面选择厂商的选择框是否可用
-            });
-        },
-        // 操作-审核-确定 按钮点击事件
-        examine(formName, value) {
-            console.log(value);
-            var $this = this;
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    var param = {}
-                    this.request('/verify/code', param, '自接单失败', function (callback) {
-                        // 审核操作成功;
-                        $this.selfReceiptDialog = false;
-                    });
-                } else {
-                    return false;
-                }
-            });
         },
         getAxiosInstance: function () {
             var _self = this;

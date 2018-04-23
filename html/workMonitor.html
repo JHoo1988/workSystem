@@ -104,20 +104,20 @@
                     <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
                 </div>
                 <div class="searchItem margin-right-10">
-                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="selfReceipt()">更多搜索条件
+                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="">更多搜索条件
                     </el-button>
                 </div>
                 <!--<el-tooltip class="item" effect="dark" content="请先勾选case单" placement="bottom"-->
                             <!--:disabled="selectMoreCase">-->
                     <!--<div class="searchItem margin-right-10">-->
-                        <!--<el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="selfReceipt()">定向派工-->
+                        <!--<el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="">定向派工-->
                         <!--</el-button>-->
                     <!--</div>-->
                 <!--</el-tooltip>-->
                 <el-tooltip class="item" effect="dark" content="请先勾选工单" placement="bottom"
                             :disabled="selectMoreCase">
                     <div class="searchItem margin-right-10">
-                        <el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="selfReceipt()">导出
+                        <el-button type="primary" :disabled="!selectMoreCase" size="mini" @click="">导出
                         </el-button>
                     </div>
                 </el-tooltip>
@@ -284,35 +284,6 @@
             </el-pagination>
         </el-main>
     </el-container>
-    <el-dialog title="自接单" :visible.sync="selfReceiptDialog" width="400px">
-        <el-form :model="selfReceiptForm" :rules="selfReceiptRules" ref="selfReceiptForm">
-            <el-form-item label="业务类型" :label-width="formLabelWidth" prop="selfReceiptbusinessCategorySelected">
-                <el-select @change="selfReceiptChange" v-model="selfReceiptForm.selfReceiptbusinessCategorySelected"
-                           placeholder="请选择业务类型">
-                    <el-option v-for="businessCategory in selfReceiptForm.businessCategoryOptions"
-                               :label="businessCategory.name" :key="businessCategory.value"
-                               :value="businessCategory.value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="选择厂商" :label-width="formLabelWidth" prop="selfReceiptShopSelected">
-                <el-tooltip class="item" effect="dark" content="请先选择业务类型" placement="bottom"
-                            :disabled="selfReceiptTooltipShow">
-                    <el-select v-model="selfReceiptForm.selfReceiptShopSelected" placeholder="请选择厂商"
-                               :disabled="selfReceiptSelectShow">
-                        <el-option v-for="shop in selfReceiptForm.shopOptions" :label="shop.name" :key="shop.value"
-                                   :value="shop.value"></el-option>
-                    </el-select>
-                </el-tooltip>
-
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="selfReceiptDialog = false">取 消</el-button>
-            <el-button type="primary"
-                       @click="examine('selfReceiptForm',selfReceiptForm.selfReceiptbusinessCategorySelected)">确 定
-            </el-button>
-        </div>
-    </el-dialog>
 </div>
 <script src="../js/vue.js"></script>
 <script src="../js/index.js"></script>
