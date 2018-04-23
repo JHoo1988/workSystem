@@ -1,0 +1,15 @@
+#workMonitor .el-main .row1 .el-input-group {
+    width: auto;
+    margin-right: 10px;
+}
+
+#workMonitor .el-main .row1 .el-input {
+    width: 120px;
+    margin-right: 10px;
+}
+#workMonitor .el-main .el-table{
+    margin-top: 15px;
+}
+#workMonitor .el-main .el-table th.is-leaf {
+    background: #f5f7fa;
+}

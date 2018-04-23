@@ -1,15 +1,15 @@
-.el-main .row1 .el-input-group {
+#caseMonitor .el-main .row1 .el-input-group {
     width: auto;
     margin-right: 10px;
 }
 
-.el-main .row1 .el-input {
+#caseMonitor .el-main .row1 .el-input {
     width: 120px;
     margin-right: 10px;
 }
-.el-main .el-table{
+#caseMonitor .el-main .el-table{
     margin-top: 15px;
 }
-.el-main .el-table th.is-leaf {
+#caseMonitor .el-main .el-table th.is-leaf {
     background: #f5f7fa;
 }
