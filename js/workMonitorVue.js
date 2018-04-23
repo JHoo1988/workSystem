@@ -6,98 +6,100 @@ var vue = new Vue({
             paginationPageSize: 20,//每一页显示的数量
             loading: false,// 加载框
             putIn: false,//“放入操作台”的按钮是否显示
-            businessCategorySelected: '',//搜索条件输入框-选择的业务类型
-            businessCategoryArray: [{ //搜索条件输入框-业务类型选项
-                value: '1294',
-                label: '空调'
-            }, {
-                value: '1562',
-                label: '冰洗'
-            }, {
-                value: '2226',
-                label: '彩电'
-            }, {
-                value: '4209',
-                label: 'C端业务'
-            }, {
-                value: '12281',
-                label: 'TCL小家电'
-            }, {
-                value: '12566',
-                label: '销售服务'
-            }, {
-                value: '12572',
-                label: '物流服务'
-            }, {
-                value: '12579',
-                label: '订单服务'
-            }, {
-                value: '2956',
-                label: '其他业务'
-            }],
-            caseLevelSelected: '',//搜索条件输入框-选择的case级别
-            caseLevelArray: [{ //搜索条件输入框-case级别选项
-                value: '403',
-                label: '普通单'
-            }, {
-                value: '404',
-                label: '1级CASE单'
-            }, {
-                value: '405',
-                label: '2级CASE单'
-            }, {
-                value: '406',
-                label: '3级CASE单'
-            }, {
-                value: '407',
-                label: '4级CASE单'
-            }, {
-                value: '408',
-                label: '5级CASE单'
-            }],
-            workStatuSelected: '',//搜索条件输入框-选择的case状态
-            workStatuArray: [{ //搜索条件输入框-工单状态
-                value: 'OS_100',
-                label: '待接单'
-            }, {
-                value: 'OS_400',
-                label: '待回单'
-            }, {
-                value: 'OS_700',
-                label: '已回过程单'
-            }, {
-                value: 'OS_900',
-                label: '已关闭'
-            }, {
-                value: 'OS_100,OS_400,OS_700,SS_W_REMIND',
-                label: '未关闭'
-            }],
-            processeSourceSelected: '',//搜索条件输入框-选择的处理来源
-            processeSourceArray: [{ //搜索条件输入框-处理来源选项
-                value: 'SS_1101',
-                label: '入库失败'
-            }, {
-                value: 'SS_1102',
-                label: '工作流启动失败'
-            }, {
-                value: 'SS_1103',
-                label: '自动流转失败'
-            }, {
-                value: 'SS_1401',
-                label: '重新处理'
-            }],
-            caseNoSearch: '',//搜索条件输入框-case单号
-            originalNoSearch: '',//搜索条件输入框-原始单号
-            officeSearch: '',//搜索条件输入框-办事处
-            customerPhoneNoSearch: '',//搜索条件输入框-客户电话
-            newWorkNoSearch: '',//搜索条件输入框-新工单号
-            shopSearch: '',//搜索条件输入框-所属门店
-            orderSourceSearch: '',//搜索条件输入框-订单来源
+            searchForm:{
+                businessCategorySelected: '',//搜索条件输入框-选择的业务类型
+                businessCategoryArray: [{ //搜索条件输入框-业务类型选项
+                    value: '1294',
+                    label: '空调'
+                }, {
+                    value: '1562',
+                    label: '冰洗'
+                }, {
+                    value: '2226',
+                    label: '彩电'
+                }, {
+                    value: '4209',
+                    label: 'C端业务'
+                }, {
+                    value: '12281',
+                    label: 'TCL小家电'
+                }, {
+                    value: '12566',
+                    label: '销售服务'
+                }, {
+                    value: '12572',
+                    label: '物流服务'
+                }, {
+                    value: '12579',
+                    label: '订单服务'
+                }, {
+                    value: '2956',
+                    label: '其他业务'
+                }],
+                caseLevelSelected: '',//搜索条件输入框-选择的case级别
+                caseLevelArray: [{ //搜索条件输入框-case级别选项
+                    value: '403',
+                    label: '普通单'
+                }, {
+                    value: '404',
+                    label: '1级CASE单'
+                }, {
+                    value: '405',
+                    label: '2级CASE单'
+                }, {
+                    value: '406',
+                    label: '3级CASE单'
+                }, {
+                    value: '407',
+                    label: '4级CASE单'
+                }, {
+                    value: '408',
+                    label: '5级CASE单'
+                }],
+                workStatuSelected: '',//搜索条件输入框-选择的case状态
+                workStatuArray: [{ //搜索条件输入框-工单状态
+                    value: 'OS_100',
+                    label: '待接单'
+                }, {
+                    value: 'OS_400',
+                    label: '待回单'
+                }, {
+                    value: 'OS_700',
+                    label: '已回过程单'
+                }, {
+                    value: 'OS_900',
+                    label: '已关闭'
+                }, {
+                    value: 'OS_100,OS_400,OS_700,SS_W_REMIND',
+                    label: '未关闭'
+                }],
+                processeSourceSelected: '',//搜索条件输入框-选择的处理来源
+                processeSourceArray: [{ //搜索条件输入框-处理来源选项
+                    value: 'SS_1101',
+                    label: '入库失败'
+                }, {
+                    value: 'SS_1102',
+                    label: '工作流启动失败'
+                }, {
+                    value: 'SS_1103',
+                    label: '自动流转失败'
+                }, {
+                    value: 'SS_1401',
+                    label: '重新处理'
+                }],
+                caseNoSearch: '',//搜索条件输入框-case单号
+                originalNoSearch: '',//搜索条件输入框-原始单号
+                officeSearch: '',//搜索条件输入框-办事处
+                customerPhoneNoSearch: '',//搜索条件输入框-客户电话
+                newWorkNoSearch: '',//搜索条件输入框-新工单号
+                shopSearch: '',//搜索条件输入框-所属门店
+                orderSourceSearch: '',//搜索条件输入框-订单来源
+                selectMoreCase: false,// 搜索条件-是否选择了多个case单
+                showMoreCondition:false,//是否显示更多搜索条件
+                selectVendor: '',
+                searchWorkingTime:[],
+            },
             formLabelWidth: '100px',
-            selectMoreCase: false,// 搜索条件-是否选择了多个case单
-            showMoreCondition:false,//是否显示更多搜索条件
-            selectVendor: '',
-            searchWorkingTime:[],
             tableData: [{
                 col1: 'SFDJJSONG',
                 col2: '10000032',
