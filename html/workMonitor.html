@@ -61,7 +61,7 @@
                     <el-input placeholder="请输新工单号" v-model="newWorkNoSearch" size="mini">
                     </el-input>
                 </div>
-                <div class="searchItem">
+                <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">case级别：</span>
                     <el-select v-model="caseLevelSelected" placeholder="请选择" size="mini">
                         <el-option
@@ -72,7 +72,7 @@
                         </el-option>
                     </el-select>
                 </div>
-                <div class="searchItem">
+                <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">处理来源：</span>
                     <template>
                         <el-select v-model="processeSourceSelected" placeholder="请选择" size="mini">
@@ -85,17 +85,17 @@
                         </el-select>
                     </template>
                 </div>
-                <div class="searchItem">
+                <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">原始单号：</span>
                     <el-input placeholder="请输原始单号" v-model="originalNoSearch" size="mini">
                     </el-input>
                 </div>
-                <div class="searchItem">
+                <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">所属门店：</span>
                     <el-input placeholder="请输客户姓名" v-model="shopSearch" size="mini">
                     </el-input>
                 </div>
-                <div class="searchItem">
+                <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">订单来源：</span>
                     <el-input placeholder="请输客户电话" v-model="orderSourceSearch" size="mini">
                     </el-input>
@@ -104,7 +104,7 @@
                     <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
                 </div>
                 <div class="searchItem margin-right-10">
-                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="">更多搜索条件
+                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="showMoreCondition = !showMoreCondition">更多搜索条件
                     </el-button>
                 </div>
                 <!--<el-tooltip class="item" effect="dark" content="请先勾选case单" placement="bottom"-->

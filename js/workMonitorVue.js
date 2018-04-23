@@ -95,6 +95,7 @@ var vue = new Vue({
             orderSourceSearch: '',//搜索条件输入框-订单来源
             formLabelWidth: '100px',
             selectMoreCase: false,// 搜索条件-是否选择了多个case单
+            showMoreCondition:false,//是否显示更多搜索条件
             tableData: [{
                 col1: 'SFDJJSONG',
                 col2: '10000032',
