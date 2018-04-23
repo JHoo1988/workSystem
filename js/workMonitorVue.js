@@ -96,6 +96,8 @@ var vue = new Vue({
             formLabelWidth: '100px',
             selectMoreCase: false,// 搜索条件-是否选择了多个case单
             showMoreCondition:false,//是否显示更多搜索条件
+            selectVendor: '',
+            searchWorkingTime:[],
             tableData: [{
                 col1: 'SFDJJSONG',
                 col2: '10000032',

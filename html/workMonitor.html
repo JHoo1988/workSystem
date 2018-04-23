@@ -18,7 +18,7 @@
                 <div class="searchItem">
                     <span class="title">业务类型：</span>
                     <template>
-                        <el-select v-model="businessCategorySelected" placeholder="请选择" size="mini">
+                        <el-select v-model="businessCategorySelected" placeholder="请选择" size="mini" class="searchSelectInput">
                             <el-option
                                     v-for="item in businessCategoryArray"
                                     :key="item.value"
@@ -31,7 +31,7 @@
                 <div class="searchItem">
                     <span class="title">工单状态：</span>
                     <template>
-                        <el-select v-model="workStatuSelected" placeholder="请选择" size="mini">
+                        <el-select v-model="workStatuSelected" placeholder="请选择" size="mini" class="searchSelectInput">
                             <el-option
                                     v-for="item in workStatuArray"
                                     :key="item.value"
@@ -43,27 +43,67 @@
                 </div>
                 <div class="searchItem">
                     <span class="title">办事处：</span>
-                    <el-input placeholder="请输办事处" v-model="officeSearch" size="mini">
+                    <el-input placeholder="请输入办事处" v-model="officeSearch" size="mini" class="searchInput">
                     </el-input>
                 </div>
                 <div class="searchItem">
                     <span class="title">客户电话：</span>
-                    <el-input placeholder="请输客户电话" v-model="customerPhoneNoSearch" size="mini">
+                    <el-input placeholder="请输客户电话" v-model="customerPhoneNoSearch" size="mini" class="searchInput">
                     </el-input>
                 </div>
                 <div class="searchItem">
                     <span class="title">case单号：</span>
-                    <el-input placeholder="请输case单号" v-model="caseNoSearch" size="mini">
+                    <el-input placeholder="请输入case单号" v-model="caseNoSearch" size="mini" class="searchInput">
                     </el-input>
                 </div>
                 <div class="searchItem">
                     <span class="title">新工单号：</span>
-                    <el-input placeholder="请输新工单号" v-model="newWorkNoSearch" size="mini">
+                    <el-input placeholder="请输入新工单号" v-model="newWorkNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">厂商名称：</span>
+                    <el-input placeholder="请输入厂商名称" v-model="newWorkNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">品牌：</span>
+                    <el-input placeholder="请输入品牌" v-model="newWorkNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">产品大类：</span>
+                    <el-input placeholder="请输入产品大类" v-model="newWorkNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">产品小类：</span>
+                    <el-input placeholder="请输入产品小类" v-model="newWorkNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">需求大类：</span>
+                    <el-input placeholder="请输入需求大类" v-model="newWorkNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">原始单号：</span>
+                    <el-input placeholder="请输入原始单号" v-model="originalNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">所属工程师：</span>
+                    <el-input placeholder="请输入所属工程师" v-model="originalNoSearch" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">回单来源：</span>
+                    <el-input placeholder="请输入回单来源" v-model="originalNoSearch" size="mini" class="searchInput">
                     </el-input>
                 </div>
                 <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">case级别：</span>
-                    <el-select v-model="caseLevelSelected" placeholder="请选择" size="mini">
+                    <el-select v-model="caseLevelSelected" placeholder="请选择" size="mini" class="searchSelectInput">
                         <el-option
                                 v-for="item in caseLevelArray"
                                 :key="item.value"
@@ -73,9 +113,9 @@
                     </el-select>
                 </div>
                 <div class="searchItem" v-if="showMoreCondition">
-                    <span class="title">处理来源：</span>
+                    <span class="title">单据类型：</span>
                     <template>
-                        <el-select v-model="processeSourceSelected" placeholder="请选择" size="mini">
+                        <el-select v-model="orderSourceSearch" placeholder="请选择" size="mini" class="searchSelectInput">
                             <el-option
                                     v-for="item in processeSourceArray"
                                     :key="item.value"
@@ -86,20 +126,90 @@
                     </template>
                 </div>
                 <div class="searchItem" v-if="showMoreCondition">
-                    <span class="title">原始单号：</span>
-                    <el-input placeholder="请输原始单号" v-model="originalNoSearch" size="mini">
-                    </el-input>
+                    <span class="title">订单来源：</span>
+                    <template>
+                        <el-select v-model="orderSourceSearch" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in processeSourceArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">处理来源：</span>
+                    <template>
+                        <el-select v-model="processeSourceSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in processeSourceArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
                 </div>
                 <div class="searchItem" v-if="showMoreCondition">
                     <span class="title">所属门店：</span>
-                    <el-input placeholder="请输客户姓名" v-model="shopSearch" size="mini">
+                    <el-input placeholder="请输入内容" v-model="shopSearch" class="input-with-select" size="mini">
+                        <el-select v-model="selectVendor" slot="prepend" placeholder="请选择">
+                            <el-option label="餐厅名" value="1"></el-option>
+                            <el-option label="订单号" value="2"></el-option>
+                            <el-option label="用户电话" value="3"></el-option>
+                        </el-select>
                     </el-input>
                 </div>
                 <div class="searchItem" v-if="showMoreCondition">
-                    <span class="title">订单来源：</span>
-                    <el-input placeholder="请输客户电话" v-model="orderSourceSearch" size="mini">
-                    </el-input>
+                    <span class="title">派工时间：</span>
+                    <el-date-picker
+                            v-model="searchWorkingTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
                 </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">预约时间：</span>
+                    <el-date-picker
+                            v-model="searchWorkingTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">回单时间：</span>
+                    <el-date-picker
+                            v-model="searchWorkingTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
+                </div>
+                <div class="searchItem" v-if="showMoreCondition">
+                    <span class="title">客户要求时间：</span>
+                    <el-date-picker
+                            v-model="searchWorkingTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
+                </div>
+
                 <div class="searchItem margin-right-10">
                     <el-button type="primary" size="mini" icon="el-icon-search" @click="search()">搜索</el-button>
                 </div>

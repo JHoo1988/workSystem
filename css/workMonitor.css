@@ -3,8 +3,13 @@
     margin-right: 10px;
 }
 
-#workMonitor .el-main .row1 .el-input {
+#workMonitor .el-main .row1 .searchItem .searchInput,#workMonitor .el-main .row1 .searchItem .searchSelectInput {
     width: 120px;
+}
+#workMonitor .el-main .row1 .searchItem .searchInput,#workMonitor .el-main .row1 .searchItem .input-with-select .el-input-group__prepend .el-select .el-input {
+    width: 120px;
+}
+#workMonitor .el-main .row1 .searchItem{
     margin-right: 10px;
 }
 #workMonitor .el-main .el-table{
