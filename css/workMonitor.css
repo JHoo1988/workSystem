@@ -13,3 +13,7 @@
 #workMonitor .el-main .el-table th.is-leaf {
     background: #f5f7fa;
 }
+#workMonitor .el-main .el-table .el-table__fixed .el-table__fixed-body-wrapper .el-table__body .el-table_1_column_2 .el-button+.el-button {
+     margin-left: 0px;
+    margin-right: 10px;
+}

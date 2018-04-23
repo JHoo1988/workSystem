@@ -20,6 +20,18 @@ var vue = new Vue({
                 value: '4209',
                 label: 'C端业务'
             }, {
+                value: '12281',
+                label: 'TCL小家电'
+            }, {
+                value: '12566',
+                label: '销售服务'
+            }, {
+                value: '12572',
+                label: '物流服务'
+            }, {
+                value: '12579',
+                label: '订单服务'
+            }, {
                 value: '2956',
                 label: '其他业务'
             }],
