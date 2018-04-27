@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>APP版本</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #search-header {
+            padding-top: 10px;
+        }
+
+        #search-header .layui-form .layui-inline {
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+        #search-header .layui-form .layui-inline .layui-form-label {
+            width: 60px;
+        }
+    </style>
+</head>
+<body>
+<div id="search-header">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">包名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="apkname" placeholder="请输入包名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">版本编码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="versioncode" placeholder="请输入版本编码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">版本名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="versionname" placeholder="请输入版本名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <button class="layui-btn layui-btn-normal layui-btn-radius" lay-submit lay-filter="formDemo">
+                <i class="layui-icon">&#xe615;</i> 查询
+            </button>
+        </div>
+    </form>
+    <button class="layui-btn layui-btn-primary layui-btn layui-btn-sm" lay-submit lay-filter="create">
+        <i class="layui-icon">&#xe654;</i> 新建
+    </button>
+    <button class="layui-btn layui-btn-primary layui-btn layui-btn-sm" lay-submit lay-filter="edit">
+        <i class="layui-icon">&#xe642;</i> 编辑
+    </button>
+</div>
+<div id="table-content">
+    <table class="layui-hide" id="test" lay-filter="selectData"></table>
+</div>
+<script src="../layui/layui.js"></script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form', 'table'], function () {
+        var layer = layui.layer
+            , form = layui.form
+            , table = layui.table;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+        // 新建
+        form.on('submit(create)', function (data) {
+            layer.msg('新建');
+        });
+        // 编辑
+        form.on('submit(edit)', function (data) {
+            var checkStatus = table.checkStatus('test'); //test即为基础参数id对应的值
+            console.log(checkStatus.data) //获取选中行的数据
+            console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
+            console.log(checkStatus.isAll) //表格是否全选
+            if(checkStatus.data.length<=0){
+                layer.msg('请选中一条数据');
+            }else if(checkStatus.data.length>1){
+                layer.msg('一次只能编辑一条数据');
+            }else if(checkStatus.data.length=1){
+                layer.msg('编辑');
+            }
+        });
+        table.render({
+            elem: '#test'
+            // , url: 'http://www.worksystem.com/index.php?m=appversion&f=gridIndex'
+            // , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增 sort: true
+            , limit: 20
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'type', title: "系统", width: 160, align: 'center', sortable: true},
+                {field: 'downpath', title: "下载地址", width: 380, align: 'center', sortable: true},
+                {field: 'apihost', title: "API主机", width: 320, align: 'center', sortable: true},
+                {field: 'updatelog', title: "升级日志", width: 380, align: 'center', sortable: true},
+                {field: 'activerate', title: "活动频率(分钟)", width: 120, align: 'center', sortable: false},
+                {field: 'ispublish', title: "是否已发布", width: 120, align: 'center', sortable: false},
+                {field: 'isforce', title: "是否强制升级", width: 120, align: 'center', sortable: true},
+                {field: 'createtime', title: "创建时间", width: 180, align: 'center', sortable: true},
+                {field: 'updatetime', title: "最后更新时间", width: 180, align: 'center', sortable: true}
+            ]]
+            ,
+            data: [{
+                "id": "39",
+                "apkname": "hawkeye_v0.9.9.6",
+                "versioncode": "107",
+                "versionname": "v0.9.9.6",
+                "downpath": "http:\/\/hktest.koyoo.cn\/soft\/test\/test_v0.9.9.6.apk",
+                "apihost": "http:\/\/hktest.koyoo.cn\/rest\/index.php",
+                "updatelog": "\u6d4b\u8bd5",
+                "activerate": "5",
+                "ispublish": "\u5df2\u53d1\u5e03",
+                "isforce": "\u5426",
+                "createtime": "2017-02-17 09:51:51",
+                "updatetime": "2017-02-17 09:51:51",
+                "role_id": "",
+                "type": "android"
+            }, {
+                "id": "38",
+                "apkname": "hawkeye_v1.1.10",
+                "versioncode": "82",
+                "versionname": "v1.1.10",
+                "downpath": "https:\/\/hawkeye-test1.oss-cn-shenzhen.aliyuncs.com\/plist\/hawkeye_v1.1.10.plist",
+                "apihost": "http:\/\/hktest.koyoo.cn\/rest\/index.php",
+                "updatelog": "",
+                "activerate": "5",
+                "ispublish": "\u5df2\u53d1\u5e03",
+                "isforce": "\u662f",
+                "createtime": "2016-12-02 15:12:32",
+                "updatetime": "2016-12-02 15:12:32",
+                "role_id": "",
+                "type": "ios"
+            }, {
+                "id": "37",
+                "apkname": "hawkeye_v0.9.6.3",
+                "versioncode": "80",
+                "versionname": "v0.9.6.3",
+                "downpath": "http:\/\/hktest.koyoo.cn\/soft\/hawkeye_v0.9.6.3.apk",
+                "apihost": "http:\/\/hktest.koyoo.cn\/rest\/index.php",
+                "updatelog": "\u6d4b\u8bd5",
+                "activerate": "5",
+                "ispublish": "\u5df2\u53d1\u5e03",
+                "isforce": "\u5426",
+                "createtime": "2016-06-03 10:33:39",
+                "updatetime": "2016-10-31 22:36:57",
+                "role_id": "",
+                "type": "android"
+            }]
+            , page: true
+            , even: true
+        });
+        // 监听复选框选中事件
+        table.on('checkbox(selectData)', function (obj) {
+            console.log(obj.checked); //当前是否选中状态
+            console.log(obj.data); //选中行的相关数据
+            console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        });
+
+
+    });
+</script>
+</body>
+</html>
