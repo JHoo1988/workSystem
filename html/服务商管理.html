@@ -61,7 +61,7 @@
                         </el-select>
                     </template>
                 </div>
-                <div class="searchItem">
+                <div class="searchItem" v-if="searchForm.showMoreCondition">
                     <span class="title">注册审核状态：</span>
                     <template>
                         <el-select v-model="searchForm.registrationAuditsStatusSelected" placeholder="请选择" size="mini" class="searchSelectInput">
@@ -188,6 +188,48 @@
                     </el-button>
                 </div>
             </div>
+            <!--<div class="row1">-->
+                <!--<el-tooltip class="item" effect="dark" content="请仅勾选一个服务商" placement="bottom"-->
+                            <!--:disabled="searchForm.selectMoreCase">-->
+                    <!--<div class="searchItem margin-right-10">-->
+                        <!--<el-button type="primary" :disabled="!searchForm.selectMoreCase" size="mini" @click="">-->
+                            <!--设置押金-->
+                        <!--</el-button>-->
+                    <!--</div>-->
+                <!--</el-tooltip>-->
+                <!--<el-tooltip class="item" effect="dark" content="请仅勾选一个服务商" placement="bottom"-->
+                            <!--:disabled="searchForm.selectMoreCase">-->
+                    <!--<div class="searchItem margin-right-10">-->
+                        <!--<el-button type="primary" :disabled="!searchForm.selectMoreCase" size="mini" @click="">-->
+                            <!--设置技能树-->
+                        <!--</el-button>-->
+                    <!--</div>-->
+                <!--</el-tooltip>-->
+                <!--<el-tooltip class="item" effect="dark" content="请仅勾选一个服务商" placement="bottom"-->
+                            <!--:disabled="searchForm.selectMoreCase">-->
+                    <!--<div class="searchItem margin-right-10">-->
+                        <!--<el-button type="primary" :disabled="!searchForm.selectMoreCase" size="mini" @click="">-->
+                            <!--下属工程师-->
+                        <!--</el-button>-->
+                    <!--</div>-->
+                <!--</el-tooltip>-->
+                <!--<el-tooltip class="item" effect="dark" content="请仅勾选一个服务商" placement="bottom"-->
+                            <!--:disabled="searchForm.selectMoreCase">-->
+                    <!--<div class="searchItem margin-right-10">-->
+                        <!--<el-button type="primary" :disabled="!searchForm.selectMoreCase" size="mini" @click="">-->
+                            <!--考试结果-->
+                        <!--</el-button>-->
+                    <!--</div>-->
+                <!--</el-tooltip>-->
+                <!--<el-tooltip class="item" effect="dark" content="请仅勾选一个服务商" placement="bottom"-->
+                            <!--:disabled="searchForm.selectMoreCase">-->
+                    <!--<div class="searchItem margin-right-10">-->
+                        <!--<el-button type="primary" :disabled="!searchForm.selectMoreCase" size="mini" @click="">-->
+                            <!--节约申请-->
+                        <!--</el-button>-->
+                    <!--</div>-->
+                <!--</el-tooltip>-->
+            <!--</div>-->
             <template class="table">
                 <el-table
                         ref="multipleTable"
@@ -203,13 +245,28 @@
                     <el-table-column
                             fixed="left"
                             label="操作"
-                            width="120">
+                            width="255">
                         <template slot-scope="scope">
                             <el-button @click="shopEditeClick(scope.row)" type="text" size="small" v-if="scope.row">
                                 查看
                             </el-button>
                             <el-button @click="shopExamineClick(scope.row)" type="text" size="small" v-if="scope.row">
                                 审核注册
+                            </el-button>
+                            <el-button @click="" type="text" size="small" v-if="scope.row">
+                                设置押金
+                            </el-button>
+                            <el-button @click="" type="text" size="small" v-if="scope.row">
+                                设置技能树
+                            </el-button>
+                            <el-button @click="" type="text" size="small" v-if="scope.row">
+                                下属工程师
+                            </el-button>
+                            <el-button @click="" type="text" size="small" v-if="scope.row">
+                                考试结果
+                            </el-button>
+                            <el-button @click="" type="text" size="small" v-if="scope.row">
+                                节约申请
                             </el-button>
                         </template>
                     </el-table-column>

@@ -20,8 +20,11 @@ body {
     padding-top: 10px;
 }
 .el-main .row1 {
-    display: -webkit-flex;
     display: flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: -webkit-flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;

@@ -10,6 +10,7 @@ var vue = new Vue({
             multipleSelection: [],//多选所选中的项
             searchForm:{
                 showMoreCondition:false,//是否显示更多搜索条件
+                selectMoreCase: false,// 搜索条件-是否选择了多个case单
                 businessCategorySelected: '',//搜索条件输入框-选择的业务类型
                 businessCategoryArray: [{ //搜索条件输入框-业务类型选项
                     value: '',
@@ -105,6 +106,29 @@ var vue = new Vue({
                 col20: '2018-05-22 16:58',
                 col21: '2018-05-22 16:58',
                 col22: '2018-05-22 16:58'
+            },{
+                col1: '停用',
+                col2: '审核通过',
+                col3: '业务主管审核',
+                col4: 'TV总部服务',
+                col5: 'TCL小家电',
+                col6: '深圳市鸿铭达机电制冷设备有限公司',
+                col7: '秦丽娟',
+                col8: '19999999999',
+                col9: '新疆维吾尔自治区',
+                col10: '武汉市',
+                col11: '武昌区',
+                col12: '空调/空调/家用中央空调/',
+                col13: '维修/安装/清洗/',
+                col14: '124566.00',
+                col15: '124566.00',
+                col16: '124566.00',
+                col17: '已缴纳',
+                col18: '2018-05-22 16:58',
+                col19: '2018-05-22 16:58',
+                col20: '2018-05-22 16:58',
+                col21: '2018-05-22 16:58',
+                col22: '2018-05-22 16:58'
             }],
         }
     },
@@ -151,12 +175,12 @@ var vue = new Vue({
         // 多选事件
         handleSelectionChange(val) {
             this.multipleSelection = val;
-            if (this.multipleSelection.length > 0) {
+            if (this.multipleSelection.length == 1) {
                 this.putIn = true;
-                this.selectMoreCase = true;
+                this.searchForm.selectMoreCase = true;
             } else {
                 this.putIn = false;
-                this.selectMoreCase = false;
+                this.searchForm.selectMoreCase = false;
             }
         },
         getAxiosInstance: function () {
