@@ -1,0 +1,24 @@
+#serviceProvider .el-main .row1 .el-input-group {
+    width: auto;
+    margin-right: 10px;
+}
+
+#serviceProvider .el-main .row1 .searchItem .searchInput,#serviceProvider .el-main .row1 .searchItem .searchSelectInput {
+    width: 120px;
+}
+#serviceProvider .el-main .row1 .searchItem .searchInput,#serviceProvider .el-main .row1 .searchItem .input-with-select .el-input-group__prepend .el-select .el-input {
+    width: 120px;
+}
+#serviceProvider .el-main .row1 .searchItem{
+    margin-right: 10px;
+}
+#serviceProvider .el-main .el-table{
+    margin-top: 15px;
+}
+#serviceProvider .el-main .el-table th.is-leaf {
+    background: #f5f7fa;
+}
+#serviceProvider .el-main .el-table .el-table__fixed .el-table__fixed-body-wrapper .el-table__body .el-table_1_column_2 .el-button+.el-button {
+     margin-left: 0px;
+    margin-right: 10px;
+}

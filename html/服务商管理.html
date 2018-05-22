@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>服务商管理</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/serviceProvider.css">
+</head>
+<body>
+<div id="serviceProvider">
+    <el-container v-loading.fullscreen.lock="loading">
+        <el-main>
+            <div class="row1">
+                <div class="searchItem">
+                    <span class="title">业务技能：</span>
+                    <template>
+                        <el-select v-model="searchForm.businessCategorySelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.businessCategoryArray"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">公司名称：</span>
+                    <el-input placeholder="请输入公司名称" v-model="searchForm.corporateName" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">法人代表：</span>
+                    <el-input placeholder="请输入法人代表" v-model="searchForm.legalRepresentative" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">手机号码：</span>
+                    <el-input placeholder="请输入手机号码" v-model="searchForm.phoneNumber" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">所属办事处：</span>
+                    <el-input placeholder="请输入办事处" v-model="searchForm.agency" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">账号状态：</span>
+                    <template>
+                        <el-select v-model="searchForm.accountStatusSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.accountStatus"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">注册审核状态：</span>
+                    <template>
+                        <el-select v-model="searchForm.registrationAuditsStatusSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.registrationAuditsStatus"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">解约审核状态：</span>
+                    <template>
+                        <el-select v-model="searchForm.dissolutionAuditsStatusSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.dissolutionAuditsStatus"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">服务地区：</span>
+                    <el-input placeholder="请输入办事处" v-model="searchForm.agency" size="mini" class="searchInput">
+                    </el-input>
+                </div>
+                <div class="searchItem">
+                    <span class="title">押金金额：</span>
+                    <template>
+                        <el-select v-model="searchForm.depositAmountSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.depositAmount"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">押金缴纳状态：</span>
+                    <template>
+                        <el-select v-model="searchForm.depositPaymentStatusSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.depositPaymentStatus"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">服务品类：</span>
+                    <template>
+                        <el-select v-model="searchForm.serviceCategorySelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.serviceCategory"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem">
+                    <span class="title">服务项目：</span>
+                    <template>
+                        <el-select v-model="searchForm.serviceItemsSelected" placeholder="请选择" size="mini" class="searchSelectInput">
+                            <el-option
+                                    v-for="item in searchForm.serviceItems"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class="searchItem" v-if="searchForm.showMoreCondition">
+                    <span class="title">创建时间：</span>
+                    <el-date-picker
+                            v-model="searchForm.createTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
+                </div>
+                <div class="searchItem" v-if="searchForm.showMoreCondition">
+                    <span class="title">审核通过时间：</span>
+                    <el-date-picker
+                            v-model="searchForm.auditPassTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
+                </div>
+                <div class="searchItem" v-if="searchForm.showMoreCondition">
+                    <span class="title">申请解约时间：</span>
+                    <el-date-picker
+                            v-model="searchForm.dissolutionTime"
+                            type="datetimerange"
+                            range-separator="至"
+                            end-placeholder="结束日期"
+                            start-placeholder="开始日期"
+                            align=""
+                            size="mini">
+                    </el-date-picker>
+                </div>
+            </div>
+            <template class="table">
+                <el-table
+                        ref="multipleTable"
+                        :data="tableData"
+                        border
+                        stripe
+                        style="width: 100%"
+                        @selection-change="handleSelectionChange">
+                    <el-table-column
+                            type="selection"
+                            width="35">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="left"
+                            label="操作"
+                            width="120">
+                        <template slot-scope="scope">
+                            <el-button @click="shopEditeClick(scope.row)" type="text" size="small" v-if="scope.row">
+                                查看
+                            </el-button>
+                            <el-button @click="shopExamineClick(scope.row)" type="text" size="small" v-if="scope.row">
+                                审核注册
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="col1"
+                            label="厂商编码"
+                            show-overflow-tooltip
+                            width="110">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col2"
+                            label="厂商ID"
+                            show-overflow-tooltip
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col3"
+                            label="厂商名称"
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col4"
+                            label="厂商类别"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col5"
+                            label="厂商性质"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col6"
+                            label="联系人"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col7"
+                            label="联系电话"
+                            show-overflow-tooltip
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col8"
+                            label="地址"
+                            show-overflow-tooltip
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col9"
+                            label="备注"
+                            show-overflow-tooltip
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            label="合同"
+                            width="50">
+                        <template slot-scope="scope">
+                            <el-button @click="downLoadContractClick(scope.row)" type="text" size="small">下载</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="col10"
+                            label="合同开始时间"
+                            show-overflow-tooltip
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col11"
+                            label="合同结束时间"
+                            show-overflow-tooltip
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col12"
+                            label="合同状态"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col13"
+                            label="品牌"
+                            show-overflow-tooltip
+                            width="150">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col14"
+                            label="厂商状态"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="col15"
+                            label="审核状态"
+                            show-overflow-tooltip
+                            width="80">
+                    </el-table-column>
+                </el-table>
+            </template>
+            <el-pagination
+                    background
+                    @size-change="handleSizeChange"
+                    :current-page="currentPage"
+                    @current-change="handleCurrentChange"
+                    :page-sizes="[20, 50, 100, 200]"
+                    :page-size="paginationPageSize"
+                    layout="total,sizes, prev, pager, next, jumper"
+                    :total="paginationTotal">
+            </el-pagination>
+        </el-main>
+    </el-container>
+</div>
+<script src="../js/vue.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/axios.min.js"></script>
+<script src="../js/serviceProvider.js"></script>
+</body>
+</html>
